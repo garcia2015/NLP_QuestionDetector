@@ -49,13 +49,19 @@ I reviewed the synctactic parsing covered in the papers I read. When trying to i
 
 In the end, a heuristic-based approach made the most sense as differentiating between statements and non-statements (questions) is simpler and less nuanced than question classification. 
 
-## Training Data ##
+## Datasets ##
+
+###### Training data ######
 The training dataset(s) came from the Sentence Corpus at http://archive.ics.uci.edu/ml/machine-learning-databases/00311/ from the UCI ML repository. The files used for this project were from the arxiv_unlabeled articles, expecting over 95% of the text to be non-questions; from the .txt files I selected 1.txt through 51.text and turned it into 1 long file, with each sentence ending in a newline char. Then I divided it into 3 sections: trainingSents1.txt, trainingSents2.txt, and trainingSents3.txt to expedite testing.
 
 I chose this dataset before I decided on my heuristics-only approach; my intent was to have as many instances of non-questions as questions to prevent imbalanced classes in my ML model. I also planned to use the labeled question dataset provided by Li and Roth at http://cogcomp.org/Data/QA/QC/. 
 
-## Outcome of training dataset classification ##
+###### Test Data ######
+[Input file]( )
+[Output file]( )
 
+## Outcome of training dataset classification ##
+[Output file: classifiedSents_annotated.txt](ToucanAI-QDetector/classifiedSents_annotated.txt)
   **Cases rejected by classifier (using training datasets):**
   ```
    (1) Questions that start with "Given xyz, [WH Question goes here]
@@ -69,6 +75,8 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 
 ## Outcome of test dataset classification ##
 
+[Output](ToucanAI-QDetector/classifiedSents_annotated.txt)
+      
 I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout value large enough to accommodate the large chunk of text. This happened again around the 4000th line and again at line 8221.
 
 ## Areas for improvement ##

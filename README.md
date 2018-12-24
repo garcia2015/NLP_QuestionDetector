@@ -54,13 +54,14 @@ In the end, a heuristic-based approach made the most sense as differentiating be
 ## Datasets ##
 
 ###### Training data ######
-- [Input files](https://github.com/garcia2015/ToucanAI-QDetector/tree/master/training_data)
+- [Input files (training)](https://github.com/garcia2015/ToucanAI-QDetector/tree/master/training_data)
+
 The training dataset(s) came from the Sentence Corpus at http://archive.ics.uci.edu/ml/machine-learning-databases/00311/ from the UCI ML repository. The files used for this project were from the arxiv_unlabeled articles, expecting over 95% of the text to be non-questions; from the .txt files I selected 1.txt through 51.text and turned it into 1 long file, with each sentence ending in a newline char. Then I divided it into 3 sections: trainingSents1.txt, trainingSents2.txt, and trainingSents3.txt to expedite testing.
 
 I chose this dataset before I decided on my heuristics-only approach; my intent was to have as many instances of non-questions as questions to prevent imbalanced classes in my ML model. I also planned to use the labeled question dataset provided by Li and Roth at http://cogcomp.org/Data/QA/QC/. 
 
 ###### Test Data ######
-- [Input file](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/test-inputs.txt)
+- [Input file (test)](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/test-inputs.txt)
 
 ## Code ##
 - [Shell](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/qDetect.sh)
@@ -71,8 +72,8 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 ## Results ##
 
 ###### Results of training dataset classification ######
-
-- [Output file](ToucanAI-QDetector/classifiedSents_annotated.txt)
+I went over the output of the classified training data line by line (572 lines) and compared to the original text. I made some annotations along the way on whether or not the text was correctly or incorrectly classified as a question. There were a few false negatives and false positives. See the next section on rejected cases. 
+- [Output file (training)](ToucanAI-QDetector/classifiedSents_annotated.txt)
 
 **Cases rejected by classifier (using training datasets):**
 ```
@@ -84,17 +85,17 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
    (1) Example: "It should not be limited to any particular set of senses, environments or goals, nor should it be limited to 
         any specific kind of hardware, such as silicon or biological neurons"
 ```
-
 ###### Results of test dataset classification ######
-There is exactly 1 extra line in the output file, to allow for the labels row: SBARQ, SQ, and CLASS.
+There was exactly 1 extra line in the output file, to allow for the labels row: SBARQ, SQ, and CLASS. I removed it manually after uploading to repository for ease of review/audit.
+
 - [Output file](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/test-outputs.txt)
       
 I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout several orders of magnitude large enough to accommodate the large chunk of text going through the CoreNLP server. This happened again around the 4000th line and again at line 8221. 
 
-
+I selected a few lines of the output to audit. One of the incorrectly classified lines from the test file was line 1381, "What triggers a slow killing response." This is an example of a WH-question, and thus an SBARQ clause tag should be present. However when I tested it on the CoreNLP parser website it labeled the clause as SBAR rather than SBARQ. After trying it on the StanfordParser site, it was tagged correctly as SBARQ.
 
 ## Areas for improvement ##
-I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. 
+I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. Compare both and see which one has higher rates of FP vs FN.
   
   
 ## Read before running code ##

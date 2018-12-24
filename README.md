@@ -23,12 +23,12 @@ I reviewed the synctactic parsing covered in the papers I read. When trying to i
       (4)Tag questions                 ---> SQ
       (5)Choice questions              ---> SQ
           -- basically yes/no questions since first part is an auxiliary verb followed by "or" and second choice
- 
+ ```
  Reference: "Bracketing Guidelines for Treebank II Style Penn Treebank Project", sections 1.2.5 - 1.2.6
             URL: http://www.sfs.uni-tuebingen.de/~dm/07/autumn/795.10/ptb-annotation-guide/root.html
   
  See also: https://preply.com/en/blog/2014/11/13/types-of-questions-in-english/
- ```  
+   
             
  Therefore, questions *MUST* contain **SBARQ** clauses, **SQ** clauses, or **both** clauses.
  

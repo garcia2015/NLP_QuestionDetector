@@ -54,15 +54,19 @@ In the end, a heuristic-based approach made the most sense as differentiating be
 ## Datasets ##
 
 ###### Training data ######
+- [Input files](https://github.com/garcia2015/ToucanAI-QDetector/tree/master/training_data)
 The training dataset(s) came from the Sentence Corpus at http://archive.ics.uci.edu/ml/machine-learning-databases/00311/ from the UCI ML repository. The files used for this project were from the arxiv_unlabeled articles, expecting over 95% of the text to be non-questions; from the .txt files I selected 1.txt through 51.text and turned it into 1 long file, with each sentence ending in a newline char. Then I divided it into 3 sections: trainingSents1.txt, trainingSents2.txt, and trainingSents3.txt to expedite testing.
 
 I chose this dataset before I decided on my heuristics-only approach; my intent was to have as many instances of non-questions as questions to prevent imbalanced classes in my ML model. I also planned to use the labeled question dataset provided by Li and Roth at http://cogcomp.org/Data/QA/QC/. 
 
 ###### Test Data ######
-- [Input file]( )
+- [Input file](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/test-inputs.txt)
 
 ## Code ##
+- [Shell](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/qDetect.sh)
+- [Final version, Python](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/qDetect_v3.py)
 
+- [Previous versions](https://github.com/garcia2015/ToucanAI-QDetector/tree/older-versions)
 
 ## Results ##
 
@@ -82,10 +86,10 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 ```
 
 ###### Results of test dataset classification ######
-
-- [Output file](ToucanAI-QDetector/classifiedSents_annotated.txt)
+There is exactly 1 extra line in the output file, to allow for the labels row: SBARQ, SQ, and CLASS.
+- [Output file](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/test-outputs.txt)
       
-I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout value large enough to accommodate the large chunk of text. This happened again around the 4000th line and again at line 8221.
+I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout several orders of magnitude large enough to accommodate the large chunk of text going through the CoreNLP server. This happened again around the 4000th line and again at line 8221. 
 
 
 

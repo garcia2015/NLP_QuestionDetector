@@ -1,7 +1,12 @@
 # ToucanAI-QDetector
-A heuristic-based question detecting classifier
+A heuristic-based question classifier
 
-
+1. [Read before running program](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#read-before-running-program)
+2. [Intro](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#intro)
+3. [Approach](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#approach)
+4. [Outcomes: Training](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#outcome-of-training-dataset-classification)
+5. [Outcomes: Test](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#outcome-of-test-dataset-classification)
+6. [Areas for Improvement](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#areas-for-improvement)
 
 ## Intro ##
 

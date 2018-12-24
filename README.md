@@ -71,17 +71,18 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 - [Output file: classifiedSents_annotated.txt](ToucanAI-QDetector/classifiedSents_annotated.txt)
 
   **Cases rejected by classifier (using training datasets):**
-  ```
+```
    (1) Questions that start with "Given xyz, [WH Question goes here]
    (2) Questions that start with "Assuming xyz, [WH Question goes here]
 ```
 **Cases which gave false positives (using training datasets):**
-  ```
-   (1) "It should not be limited to any particular set of senses, environments or goals, nor should it be limited to 
+```
+   (1) Example: "It should not be limited to any particular set of senses, environments or goals, nor should it be limited to 
         any specific kind of hardware, such as silicon or biological neurons"
 ```
 
 ###### Results of test dataset classification ######
+
 - [Output file](ToucanAI-QDetector/classifiedSents_annotated.txt)
       
 I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout value large enough to accommodate the large chunk of text. This happened again around the 4000th line and again at line 8221.

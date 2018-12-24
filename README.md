@@ -1,6 +1,10 @@
 # ToucanAI-QDetector
 A heuristic-based question detecting classifier
 
+
+
+## Intro ##
+
 For this project I went back to first principles in order to understand the objective: take an input string from a file and be able to detect or classify it as a sentence or not. The most logical way to approach the problem is to define a question, grammatically, without having to rely on question marks.
 
 ## Approach ##
@@ -58,7 +62,11 @@ In the end, a heuristic-based approach made the most sense as differentiating be
 I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout value large enough to accommodate the large chunk of text. This happened again around the 4000th line and again at line 8221.
 
   
+## Read before running program ##
 
+To run this program you will need:
+--to make sure StanfordCoreNLP is installed (v.3.9.2) (download folder name: stanford-corenlp-full-2018-10-05)
+--Python 3.6 or later
 
 
 

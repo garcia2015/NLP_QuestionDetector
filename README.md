@@ -57,8 +57,8 @@ The training dataset(s) came from the Sentence Corpus at http://archive.ics.uci.
 I chose this dataset before I decided on my heuristics-only approach; my intent was to have as many instances of non-questions as questions to prevent imbalanced classes in my ML model. I also planned to use the labeled question dataset provided by Li and Roth at http://cogcomp.org/Data/QA/QC/. 
 
 ###### Test Data ######
-[Input file]( )
-[Output file]( )
+- [Input file]( )
+- [Output file]( )
 
 ## Outcome of training dataset classification ##
 [Output file: classifiedSents_annotated.txt](ToucanAI-QDetector/classifiedSents_annotated.txt)

@@ -15,18 +15,23 @@ The approach I took was then to try and understand and group together categories
   Therefore, questions MUST contain SBARQ clauses, SQ clauses, or both clauses
 
   Any line of text that does NOT contain the above is NOT a question (indirect questions do not count as questions for the purpose of this classifier)
-
-   <b>Cases not covered:</b>
+```
+   *Cases not covered:*
    (1) indirect questions,
    (2) questions that read like statements when no question mark present (e.g. "This is Japan" vs "This is Japan?")
+```
 
-  <b>Cases rejected by classifier (using training datasets):</b>
+```
+  <b>Cases rejected by classifier (using training datasets):<\b>
    (1) Questions that start with "Given xyz, [WH Question goes here]
    (2) Questions that start with "Assuming xyz, [WH Question goes here]
    (3) 
+```
 
-  <b>Cases which gave false positives (using training datasets):</b>
-   (1)
+  *Cases which gave false positives (using training datasets):*
+  ```
+   (1) "It should not be limited to any particular set of senses, environments or goals, nor should it be limited to any specific kind of hardware, such as silicon or biological neurons"
+```
 
 Reference: "Bracketing Guidelines for Treebank II Style Penn Treebank Project", sections 1.2.5 - 1.2.6
 (URL: http://www.sfs.uni-tuebingen.de/~dm/07/autumn/795.10/ptb-annotation-guide/root.html)

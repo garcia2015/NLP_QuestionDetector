@@ -7,6 +7,7 @@ A heuristic-based question classifier
 4. [Outcomes: Training](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#outcome-of-training-dataset-classification)
 5. [Outcomes: Test](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#outcome-of-test-dataset-classification)
 6. [Areas for Improvement](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#areas-for-improvement)
+7. [Training Data](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#training-data)
 
 ## Intro ##
 
@@ -47,7 +48,12 @@ I reviewed the synctactic parsing covered in the papers I read. When trying to i
  Other approaches use tokenizers and/or parsers such as those available libraries such as NLTK and spaCy. In my search for a good parser I came across StanfordParser and the reason I chose it above the others was its ability to group by clause. I went with Stanford CoreNLP since it was easier to integrate using pycorenlp wrapper for python. It also offered other advanced features.
 
 In the end, a heuristic-based approach made the most sense as differentiating between statements and non-statements (questions) is simpler and less nuanced than question classification. 
-   
+
+## Training Data ##
+The training dataset(s) came from the Sentence Corpus at http://archive.ics.uci.edu/ml/machine-learning-databases/00311/ from the UCI ML repository. The files used for this project were from the arxiv_unlabeled articles, expecting over 95% of the text to be non-questions; from the .txt files I selected 1.txt through 51.text and turned it into 1 long file, with each sentence ending in a newline char. Then I divided it into 3 sections: trainingSents1.txt, trainingSents2.txt, and trainingSents3.txt to expedite testing.
+
+I chose this dataset before I decided on my heuristics-only approach; my intent was to have as many instances of non-questions as questions to prevent imbalanced classes in my ML model. I also planned to use the labeled question dataset provided by Li and Roth at http://cogcomp.org/Data/QA/QC/. 
+
 ## Outcome of training dataset classification ##
 
   **Cases rejected by classifier (using training datasets):**

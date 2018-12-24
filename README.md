@@ -49,7 +49,6 @@ In the end, a heuristic-based approach made the most sense as differentiating be
   ```
    (1) Questions that start with "Given xyz, [WH Question goes here]
    (2) Questions that start with "Assuming xyz, [WH Question goes here]
-   (3) 
 ```
 **Cases which gave false positives (using training datasets):**
   ```
@@ -61,6 +60,8 @@ In the end, a heuristic-based approach made the most sense as differentiating be
 
 I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout value large enough to accommodate the large chunk of text. This happened again around the 4000th line and again at line 8221.
 
+## Areas for improvement ##
+I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. 
   
 ## Read before running program ##
 

@@ -95,7 +95,7 @@ I had an issue with line 128 in the test inputs file, but I realized it was the 
 I selected a few lines of the output to audit. One of the incorrectly classified lines from the test file was line 1381, "What triggers a slow killing response." This is an example of a WH-question, and thus an SBARQ clause tag should be present. However when I tested it on the CoreNLP parser website it labeled the clause as SBAR rather than SBARQ. After trying it on the StanfordParser site, it was tagged correctly as SBARQ.
 
 ## Areas for improvement ##
-I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. Compare both and see which one has higher rates of FP vs FN.
+I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. Compare both and see which one has higher rates of FP vs FN. I could also do some further statistical analysis to truly evaluate the performance of this classifier anf provide some AUC and acuracy graphs.
   
   
 ## Read before running code ##

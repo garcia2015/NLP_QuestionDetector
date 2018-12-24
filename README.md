@@ -8,7 +8,6 @@ A heuristic-based question classifier
 5. [Code](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#code)
 6. [Results](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#results)
 7. [Areas for Improvement](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#areas-for-improvement)
-8. [Training Data](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#training-data)
 
 ## Intro ##
 
@@ -61,6 +60,8 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 
 ###### Test Data ######
 - [Input file]( )
+
+## Code ##
 
 
 ## Results ##

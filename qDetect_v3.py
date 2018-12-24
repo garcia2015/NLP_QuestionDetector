@@ -37,7 +37,7 @@ def question_classifier(filePathIn, filePathOut):
 #   Cases not covered:
 #   (1) indirect questions,
 #   (2) questions that read like statements when no question mark present (e.g. "This is Japan" vs "This is Japan?")
-#   (3)
+#
 #
 # (Reference: "Bracketing Guidelines for Treebank II Style Penn Treebank Project", sections 1.2.5 - 1.2.6
 # (URL: http://www.sfs.uni-tuebingen.de/~dm/07/autumn/795.10/ptb-annotation-guide/root.html)

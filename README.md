@@ -66,8 +66,8 @@ I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to s
 ## Read before running program ##
 
 To run this program you will need:
---to make sure StanfordCoreNLP is installed (v.3.9.2) (download folder name: stanford-corenlp-full-2018-10-05)
---Python 3.6 or later
+- to make sure StanfordCoreNLP is installed (v.3.9.2) (download folder name: stanford-corenlp-full-2018-10-05)
+- Python 3.6 or later
 
 
 

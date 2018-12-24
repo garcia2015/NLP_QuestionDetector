@@ -1,7 +1,7 @@
 # ToucanAI-QDetector
 A heuristic-based question classifier
 
-1. [Read before running program](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#read-before-running-program)
+1. [Read before running code](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#read-before-running-code)
 2. [Intro](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#intro)
 3. [Approach](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#approach)
 4. [Datasets](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#datasets)
@@ -68,9 +68,9 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 
 ###### Results of training dataset classification ######
 
-- [Output file: classifiedSents_annotated.txt](ToucanAI-QDetector/classifiedSents_annotated.txt)
+- [Output file](ToucanAI-QDetector/classifiedSents_annotated.txt)
 
-  **Cases rejected by classifier (using training datasets):**
+**Cases rejected by classifier (using training datasets):**
 ```
    (1) Questions that start with "Given xyz, [WH Question goes here]
    (2) Questions that start with "Assuming xyz, [WH Question goes here]
@@ -93,10 +93,10 @@ I had an issue with line 128 in the test inputs file, but I realized it was the 
 I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. 
   
   
-## Read before running program ##
+## Read before running code ##
 
-To run this program you will need:
-- to make sure StanfordCoreNLP is installed (v.3.9.2) (download folder name: stanford-corenlp-full-2018-10-05)
+To run this code you will need:
+- To make sure StanfordCoreNLP is installed (v.3.9.2) (download folder name: stanford-corenlp-full-2018-10-05)
 - Python 3.6 or later
 
 

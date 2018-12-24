@@ -4,10 +4,11 @@ A heuristic-based question classifier
 1. [Read before running program](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#read-before-running-program)
 2. [Intro](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#intro)
 3. [Approach](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#approach)
-4. [Outcomes: Training](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#outcome-of-training-dataset-classification)
-5. [Outcomes: Test](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#outcome-of-test-dataset-classification)
-6. [Areas for Improvement](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#areas-for-improvement)
-7. [Training Data](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#training-data)
+4. [Datasets](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#datasets)
+5. [Code](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#code)
+6. [Results](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#results)
+7. [Areas for Improvement](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#areas-for-improvement)
+8. [Training Data](https://github.com/garcia2015/ToucanAI-QDetector/blob/master/README.md#training-data)
 
 ## Intro ##
 
@@ -49,6 +50,8 @@ I reviewed the synctactic parsing covered in the papers I read. When trying to i
 
 In the end, a heuristic-based approach made the most sense as differentiating between statements and non-statements (questions) is simpler and less nuanced than question classification. 
 
+
+
 ## Datasets ##
 
 ###### Training data ######
@@ -58,10 +61,14 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
 
 ###### Test Data ######
 - [Input file]( )
-- [Output file]( )
 
-## Outcome of training dataset classification ##
-[Output file: classifiedSents_annotated.txt](ToucanAI-QDetector/classifiedSents_annotated.txt)
+
+## Results ##
+
+###### Results of training dataset classification ######
+
+- [Output file: classifiedSents_annotated.txt](ToucanAI-QDetector/classifiedSents_annotated.txt)
+
   **Cases rejected by classifier (using training datasets):**
   ```
    (1) Questions that start with "Given xyz, [WH Question goes here]
@@ -73,14 +80,16 @@ I chose this dataset before I decided on my heuristics-only approach; my intent 
         any specific kind of hardware, such as silicon or biological neurons"
 ```
 
-## Outcome of test dataset classification ##
-
-[Output](ToucanAI-QDetector/classifiedSents_annotated.txt)
+###### Results of test dataset classification ######
+- [Output file](ToucanAI-QDetector/classifiedSents_annotated.txt)
       
 I had an issue with line 128 in the test inputs file, but I realized it was the sentence length that was crashing the CoreNLP server but solved the issue with a timeout value large enough to accommodate the large chunk of text. This happened again around the 4000th line and again at line 8221.
 
+
+
 ## Areas for improvement ##
 I'd spend time testing other versions of StanfordCoreNLP and StanfordParser to see which one could catch the WHPP clauses that escaped the version I used as well as the cases rejected by the classifier in the training dataset. 
+  
   
 ## Read before running program ##
 

@@ -1,0 +1,604 @@
+Nevertheless, smoother selection criteria seem to be a possible answer to these difficulties
+Assume that the law family closure does not contain all the deterministic solutions
+The CE algorithm will converge to a stochastic approximation of the optimal solution
+Is this approximation the best possible within the law family
+Our answer to this question is not absolutely negative
+But it appears that some extensions of the CE, quite usually implemented, will fail on this question
+This paper presents some counterexamples to these questions
+In the case of stochastic optimization, tests are done on simple random examples in order to compare the convergence of various CE methods with the global optimum       5pt   Next section introduces shortly the principle of the CE method
+Section will consider the case, where the optimal solution is not caught properly by the sampling family
+A counterexample is proposed and studied
+In section , stochastic problems are considered
+Two simple counterexamples are investigated, thus enlightening some typical convergence difficulties
+Different evolutions of the cross-entropy are then compared to the basical method, by generating several random examples
+In particular, a method with smooth sample selection is proposed as a possible alternative for the stochastic problems
+Section 9 concludes
+Much recent work in bioinformatics has focused on the inference of various types of biological networks, representing gene regulation, metabolic processes, protein-protein interactions, etc
+A common setting involves inferring network edges in a supervised fashion from a set of high-confidence edges, possibly characterized by multiple, heterogeneous data sets protein sequence, gene expression, etc
+Here, we distinguish between two modes of inference in this setting: direct inference based upon similarities between nodes joined by an edge, and indirect inference based upon similarities between one pair of nodes and another pair of nodes
+We propose a supervised approach for the direct case by translating it into a distance metric learning problem
+A relaxation of the resulting convex optimization problem leads to the support vector machine SVM algorithm with a particular kernel for pairs, which we call the metric learning pairwise kernel
+We demonstrate, using several real biological networks, that this direct approach often improves upon the state-of-the-art SVM for indirect inference with the tensor product pairwise kernel
+Increasingly, molecular and systems biology is concerned with describing various types of subcellular networks
+These include protein-protein interaction networks, metabolic networks, gene regulatory and signaling pathways, and genetic interaction networks
+While some of these networks can be partly deciphered by high-throughput experimental methods, fully constructing any such network requires lengthy biochemical validation
+Therefore, the automatic prediction of edges from other available data, such as protein sequences, global network topology or gene expression profiles, is of importance, either to speed up the elucidation of important pathways or to complement high-throughput methods that are subject to high levels of noise
+Edges in a network can be inferred from relevant data in at least two complementary ways
+For concreteness, consider a network of protein-protein interactions derived from some noisy, high-throughput technology
+Our confidence in the correctness of a particular edge SYMBOL - SYMBOL in this network increases if we observe, for example, that the two proteins SYMBOL and SYMBOL localize to the same cellular compartment or share similar evolutionary patterns
+Generally, in this type of direct inference , two genes or proteins are predicted to interact if they bear some direct similarity to each other in the available data
+An alternative mode of inference, which we call indirect inference , relies upon similarities between pairs of genes or proteins
+In the example above, our confidence in SYMBOL - SYMBOL increases if we find some other, high-confidence edge SYMBOL - SYMBOL such that the pair SYMBOL resembles SYMBOL in some meaningful fashion
+Note that in this model, the two connected proteins SYMBOL and SYMBOL might not be similar to one another
+For example, if the goal is to detect edges in a regulatory network by using time series expression data, one would expect the time series of the regulated protein to be delayed in time compared to that of the regulatory protein
+Therefore, in this case, the learning phase would involve learning this feature from other pairs of regulatory  regulated proteins
+The most common application of the indirect inference approach in the case of protein-protein interaction involves comparing the amino acid sequences of SYMBOL and SYMBOL versus SYMBOL and SYMBOL e g ,
+Indirect inference amounts to a straightforward application of the machine learning paradigm to the problem of edge inference: each edge is an example, and the task is to learn by example to discriminate between ``true'' and ``false'' edges
+Not surprisingly, therefore, several machine learning algorithms have been applied to predict network edges from properties of protein pairs
+For example, in the context of machine learning with support vector machines SVM and kernel methods, Ben-Hur and Noble describe how to map an embedding of individual proteins onto an embedding of pairs of proteins
+The mapping defines two pairs of proteins as similar to each other when each protein in a pair is similar to one corresponding protein in the other pair
+In practice, the mapping is defined by deriving a kernel function on pairs of proteins from a kernel function SYMBOL on individual proteins, obtained by a tensorization of the initial feature space
+We therefore call this pairwise kernel, shown below, the tensor product pairwise kernel TPPK : SYMBOL    Less attention has been paid to the use of machine learning approaches in the direct inference paradigm
+Two exceptions are the works of Yamanishi et al and Vert et al , who derive supervised machine learning algorithms to optimize the measure of similarity that underlies the direct approach by learning from examples of interacting and non-interacting pairs
+Yamanishi et al employ kernel canonical correlation analysis to embed the proteins into a feature space where distances are expected to correlate with the presence or absence of interactions between protein pairs
+Vert et al highlight the similarity of this approach with the problem of distance metric learning , while proposing an algorithm for that purpose
+Both of these direct inference approaches, however, suffer from two important drawbacks
+First, they are based on the optimization of a proxy function that is slightly different from the objective of the embedding, namely, finding a distance metric such that interacting  non-interacting pairs fall above  below some threshold
+Second, the methods of and are applicable only when the known part of the network used for training is defined by a subset of proteins in the network
+In other words, in order to apply these methods, we must have a complete set of high-confidence edges for one set of proteins, from which we can infer edges in the rest of the network
+This setting is unrealistic
+In practice, our training data will generally consist of known positive and negative edges distributed throughout the target network
+In this paper we propose a convex formulation for supervised learning in the direct inference paradigm that overcomes both of the limitations mentioned above
+We show that a slight relaxation of this formulation bears surprising similarities with the supervised approach of , in the sense that it amounts to defining a kernel between pairs of proteins from a kernel between individual proteins
+We therefore call our method the metric learning pairwise kernel MLPK
+An important property of this formulation as an SVM is the possibility to learn from several data types simultaneously by combining kernels, which is of particular importance in various bioinformatics applications
+We validate the MLPK approach on the task of reconstructing two yeast networks: the network of metabolic pathways and the co-complex network
+In each case, the network is inferred from a variety of genomic and proteomic data, including protein amino acid sequences, gene expression levels over a large set of experiments, and protein cellular localization
+We show that the MLPK approach nearly always provides better prediction performance than the state-of-the-art TPPK approach
+One property of networks that has received comparatively little attention is hierarchy, ie , the property of having vertices that cluster together in groups, which then join to form groups of groups, and so forth, up through all levels of organization in the network
+Here, we give a precise definition of hierarchical structure, give a generic model for generating arbitrary hierarchical structure in a random graph, and describe a statistically principled way to learn the set of hierarchical features that most plausibly explain a particular real-world network
+By applying this approach to two example networks, we demonstrate its advantages for the interpretation of network data, the annotation of graphs with edge, vertex and community properties, and the generation of generic null models for further hypothesis testing
+Networks or graphs provide a useful mathematical representation of a broad variety of complex systems, from the World Wide Web and the Internet to social, biochemical, and ecological systems
+The last decade has seen a surge of interest across the sciences in the study of networks, including both empirical studies of particular networked systems and the development of new techniques and models for their analysis and interpretation
+Within the mathematical sciences, researchers have focused on the statistical characterization of network structure, and, at times, on producing descriptive generative mechanisms of simple structures
+This approach, in which scientists have focused on statistical summaries of network structure, such as path lengths , degree distributions , and correlation coefficients , stands in contrast with, for example, the work on networks in the social and biological sciences, where the focus is instead on the properties of individual vertices or groups
+More recently, researchers in both areas have become more interested in the global organization of networks
+One property of real-world networks that has received comparatively little attention is that of hierarchy , i e , the observation that networks often have a fractal-like structure in which vertices cluster together into groups that then join to form groups of groups, and so forth, from the lowest levels of organization up to the level of the entire network
+In this paper, we offer a precise definition of the notion of hierarchy in networks and give a generic model for generating networks with arbitrary hierarchical structure
+We then describe an approach for learning such models from real network data, based on maximum likelihood methods and Markov chain Monte Carlo sampling
+In addition to inferring global structure from graph data, our method allows the researcher to annotate a graph with community structure, edge strength, and vertex affiliation information
+At its heart, our method works by sampling hierarchical structures with probability proportional to the likelihood with which they produce the input graph
+This allows us to contemplate the ensemble of random graphs that are statistically similar to the original graph, and, through it, to measure various average network properties in manner reminiscent of Bayesian model averaging
+In particular, we can search for the maximum likelihood hierarchical model of a particular graph, which can then be used as a null model for further hypothesis testing, derive a consensus hierarchical structure from the ensemble of sampled models, where hierarchical features are weighted by their likelihood, and annotate an edge, or the absence of an edge, as ``surprising'' to the extent that it occurs with low probability in the ensemble
+To our knowledge, this method is the only one that offers such information about a network
+Moreover, this information can easily be represented in a human-readable format, providing a compact visualization of important organizational features of the network, which will be a useful tool for practitioners in generating new hypotheses about the organization of networks
+For dimension reduction in SYMBOL , the method of Cauchy random projections multiplies the original data matrix SYMBOL with a random matrix SYMBOL SYMBOL whose entries are
+samples of the standard Cauchy SYMBOL
+Because of the impossibility results, one can not hope to recover the pairwise SYMBOL distances in SYMBOL from SYMBOL , using linear estimators without incurring large errors
+However, nonlinear estimators are still useful for certain applications in data stream computation, information retrieval, learning, and data mining
+We propose three types of nonlinear estimators: the bias-corrected sample median estimator, the bias-corrected geometric mean estimator, and the bias-corrected maximum likelihood estimator
+The sample median estimator and the geometric mean estimator are asymptotically as SYMBOL equivalent but the latter is more accurate at small SYMBOL
+We derive explicit tail bounds for the geometric mean estimator and establish an analog of the Johnson-Lindenstrauss JL lemma for dimension reduction in SYMBOL , which is weaker than the classical JL lemma for dimension reduction in SYMBOL
+Asymptotically, both the sample median estimator and the geometric mean estimators are about SYMBOL efficient compared to the maximum likelihood estimator MLE
+We analyze the moments of the MLE and propose approximating the distribution of the MLE by an inverse Gaussian
+This paper focuses on dimension reduction in SYMBOL , in particular, on the method based on Cauchy random projections , which is special case of linear random projections
+The idea of linear random projections is to multiply the original data matrix SYMBOL with a random projection matrix SYMBOL , resulting in a projected matrix SYMBOL
+If SYMBOL , then it should be much more efficient to compute certain summary statistics e g , pairwise distances from SYMBOL as opposed to SYMBOL
+Moreover, SYMBOL may be small enough to reside in physical memory while SYMBOL is often too large to fit in the main memory
+The choice of the random projection matrix SYMBOL depends on which norm we would like to work with
+ proposed constructing SYMBOL from iid
+samples of SYMBOL -stable distributions, for dimension reduction in SYMBOL SYMBOL
+In the stable distribution family , normal is 2-stable and Cauchy is 1-stable
+Thus, we will call random projections for SYMBOL and SYMBOL , normal random projections and Cauchy random projections , respectively
+In normal random projections , we can estimate the original pairwise SYMBOL distances of SYMBOL directly using the corresponding SYMBOL distances of SYMBOL up to a normalizing constant
+Furthermore, the Johnson-Lindenstrauss JL lemma provides the performance guarantee
+We will review normal random projections in more detail in Section
+For Cauchy random projections , we should not use the SYMBOL distance in SYMBOL to approximate the original SYMBOL distance in SYMBOL , as the Cauchy distribution does not even have a finite first moment
+The impossibility results have proved that one can not hope to recover the SYMBOL distance using linear projections and linear estimators e g , sample mean , without incurring large errors
+Fortunately, the impossibility results do not rule out nonlinear estimators, which may be still useful in certain applications in data stream computation, information retrieval, learning, and data mining
+ proposed using the sample median instead of the sample mean in Cauchy random projections and described its application in data stream computation
+In this study, we provide three types of nonlinear estimators: the bias-corrected sample median estimator, the bias-corrected geometric mean estimator, and the bias-corrected maximum likelihood estimator
+The sample median estimator and the geometric mean estimator are asymptotically equivalent i e , both are about SYMBOL efficient as the maximum likelihood estimator , but the latter is more accurate at small sample size SYMBOL
+Furthermore, we derive explicit tail bounds for the bias-corrected geometric mean estimator and establish an analog of the JL Lemma for dimension reduction in SYMBOL
+This analog of the JL Lemma for SYMBOL is weaker than the classical JL Lemma for SYMBOL , as the geometric mean estimator is a non-convex norm and hence is not a metric
+Many efficient algorithms, such as some sub-linear time using super-linear memory nearest neighbor algorithms , rely on the metric properties e g , the triangle inequality
+Nevertheless, nonlinear estimators may be still useful in important scenarios
+Estimating SYMBOL distances online      The original data matrix SYMBOL requires SYMBOL storage space; and hence it is often too large for physical memory
+The storage cost of all pairwise distances is SYMBOL , which may be also too large for the memory
+For example, in information retrieval, SYMBOL could be the total number of word types or documents at Web scale
+To avoid page fault, it may be more efficient to estimate the distances on the fly from the projected data matrix SYMBOL in the memory
+Computing all pairwise SYMBOL distances      In distance-based clustering and classification applications, we need to compute all pairwise distances in SYMBOL , at the cost of time SYMBOL
+Using Cauchy random projections , the cost can be reduced to SYMBOL
+Because SYMBOL , the savings could be enormous
+Linear scan nearest neighbor searching      We can always search for the nearest neighbors by linear scans
+When working with the projected data matrix SYMBOL which is in the memory , the cost of searching for the nearest neighbor for one data point is time SYMBOL , which may be still significantly faster than the sub-linear algorithms working with the original data matrix SYMBOL which is often on the disk
+We briefly comment on coordinate sampling , another strategy for dimension reduction
+Given a data matrix SYMBOL , one can randomly sample SYMBOL columns from SYMBOL and estimate the summary statistics including SYMBOL and SYMBOL distances
+Despite its simplicity, there are two major disadvantages in coordinate sampling
+First, there is no performance guarantee
+For heavy-tailed data, we may have to choose SYMBOL very large in order to achieve sufficient accuracy
+Second, large datasets are often highly sparse, for example, text data and market-basket data
+ and provide an alternative coordinate sampling strategy, called Conditional Random Sampling CRS , suitable for sparse data
+For non-sparse data, however, methods based on linear random projections are superior
+The rest of the paper is organized as follows
+Section 1 reviews linear random projections
+Section 2 summarizes the main results for three types of nonlinear estimators
+Section 3 presents the sample median estimators
+Section 4 concerns the geometric mean estimators
+Section 5 is devoted to the maximum likelihood estimators
+Section 6 concludes the paper
+In this paper we propose a method that learns to play Pac-Man
+We define a set of high-level observation and action modules
+Actions are temporally extended, and multiple action modules may be in effect concurrently
+A decision of the agent is represented as a rule-based policy
+For learning, we apply the cross-entropy method, a recent global optimization algorithm
+The learned policies reached better score than the hand-crafted policy, and neared the score of average human players
+We argue that learning is successful mainly because i the policy space includes the combination of individual actions and thus it is sufficiently rich, ii the search is biased towards low-complexity policies and low complexity solutions can be found quickly if they exist
+Based on these principles, we formulate a new theoretical framework, which can be found in the Appendix as supporting material
+During the last two decades, reinforcement learning has reached a mature state, and has been laid on solid foundations
+We have a large variety of algorithms, including value-function based, direct policy search and hybrid methods
+The basic properties of many such algorithms are relatively well understood e g conditions for convergence, complexity, effect of various parameters etc , although it is needless to say that there are still lots of important open questions
+There are also plenty of test problems like various maze-navigation tasks, pole-balancing, car on the hill etc on which the capabilities of RL algorithms have been demonstrated, and the number of successful large-scale RL applications is also growing steadily
+However, there is still a sore need for more successful applications to validate the place of RL as a major branch of artificial intelligence
+We think that games including the diverse set of classical board games, card games, modern computer games etc are ideal test environments for reinforcement learning
+Games are intended to be interesting and challenging for human intelligence and therefore, they are ideal means to explore what artificial intelligence is still missing
+Furthermore, most games fit well into the RL paradigm: they are goal-oriented sequential decision problems, where each decision can have long-term effect
+In many cases, hidden information, random events, unknown environment, known, or unknown players account for part of the difficulty of playing the game
+Such circumstances are in the focus of the reinforcement learning idea
+They are also attractive for testing new methods: the decision space is huge in most cases, so finding a good strategy is a challenging task
+There is another great advantage of games as test problems: the rules of the games are fixed, so the danger of `tailoring the task to the algorithm' i e , to tweak the rules and  or the environment so that they meet the capabilities of the proposed RL algorithm is reduced, compared, eg , to various maze navigation tasks
+RL has been tried in many classical games, including checkers , backgammon , and chess
+On the other hand, modern computer games got into the spotlight only recently, and there are not very many successful attempts to learn them with AI tools
+Notable exceptions are, eg , role-playing game Baldur's Gate , real-time strategy game Wargus , and possibly, Tetris
+These games are also interesting from the point of view of RL, as they catch different aspects of human intelligence: instead of deep and wide logical deduction chains, most modern computer games need short-term strategies, but many observations have to be considered in parallel, and both the observation space and the action space can be huge
+In this spirit, we decided to investigate the arcade game Pac-Man
+The game is interesting on its own, as it is largely unsolved, but also imposes several important questions in RL, which we will overview in Section
+We will show that a hybrid approach is more successful than either tabula rasa learning or a hand-coded strategy alone
+We will provide hand-coded high-level actions and observations, and the task of RL is to learn how to combine them into a good policy
+We will apply rule-based policies because they are easy to interpret, and it is easy to include human domain-knowledge
+For learning, we will apply the cross-entropy method, a recently developed general optimization algorithm
+In the next section we overview the Pac-Man game and the related literature
+We also investigate the emerging questions upon casting this game as a reinforcement learning task
+In sections and we give a short description of rule-based policies and the cross-entropy optimization method, respectively
+In section we describe the details of the learning experiments, and in section we present our results
+Finally, in section we summarize and discuss our approach with an emphasis on its implications for other RL problems
+Recent advances in machine learning make it possible to design efficient prediction algorithms for data sets with huge numbers of parameters
+This paper describes a new technique for ``hedging'' the predictions output by many such algorithms, including support vector machines, kernel ridge regression, kernel nearest neighbours, and by many other state-of-the-art methods
+The hedged predictions for the labels of new objects include quantitative measures of their own accuracy and reliability
+These measures are provably valid under the assumption of randomness, traditional in machine learning: the objects and their labels are assumed to be generated independently from the same probability distribution
+In particular, it becomes possible to control up to statistical fluctuations the number of erroneous predictions by selecting a suitable confidence level
+Validity being achieved automatically, the remaining goal of hedged prediction is efficiency: taking full account of the new objects' features and other available information to produce as accurate predictions as possible
+This can be done successfully using the powerful machinery of modern machine learning
+The two main varieties of the problem of prediction, classification and regression, are standard subjects in statistics and machine learning
+The classical classification and regression techniques can deal successfully with conventional small-scale, low-dimensional data sets; however, attempts to apply these techniques to modern high-dimensional and high-throughput data sets encounter serious conceptual and computational difficulties
+Several new techniques, first of all support vector machines and other kernel methods, have been developed in machine learning recently with the explicit goal of dealing with high-dimensional data sets with large numbers of objects
+A typical drawback of the new techniques is the lack of useful measures of confidence in their predictions
+For example, some of the tightest upper bounds of the popular PAC theory on the probability of error exceed 1 even for relatively clean data sets , p 249
+This paper describes an efficient way to ``hedge'' the predictions produced by the new and traditional machine-learning methods, i e , to complement them with measures of their accuracy and reliability
+Appropriately chosen, not only are these measures valid and informative, but they also take full account of the special features of the object to be predicted
+We call our algorithms for producing hedged predictions ``conformal predictors''; they are formally introduced in Section
+Their most important property is the automatic validity under the randomness assumption to be discussed shortly
+Informally, validity means that conformal predictors never overrate the accuracy and reliability of their predictions
+This property, stated in Sections and , is formalized in terms of finite data sequences, without any recourse to asymptotics
+The claim of validity of conformal predictors depends on an assumption that is shared by many other algorithms in machine learning, which we call the assumption of randomness: the objects and their labels are assumed to be generated independently from the same probability distribution
+Admittedly, this is a strong assumption, and areas of machine learning are emerging that rely on other assumptions such as the Markovian assumption of reinforcement learning; see, eg , or dispense with any stochastic assumptions altogether competitive on-line learning; see, eg ,
+It is, however, much weaker than assuming a parametric statistical model, sometimes complemented with a prior distribution on the parameter space, which is customary in the statistical theory of prediction
+And taking into account the strength of the guarantees that can be proved under this assumption, it does not appear overly restrictive
+So we know that conformal predictors tell the truth
+Clearly, this is not enough: truth can be uninformative and so useless
+We will refer to various measures of informativeness of conformal predictors as their ``efficiency''
+As conformal predictors are provably valid, efficiency is the only thing we need to worry about when designing conformal predictors for solving specific problems
+Virtually any classification or regression algorithm can be transformed into a conformal predictor, and so most of the arsenal of methods of modern machine learning can be brought to bear on the design of efficient conformal predictors
+We start the main part of the paper, in Section , with the description of an idealized predictor based on Kolmogorov's algorithmic theory of randomness
+This ``universal predictor'' produces the best possible hedged predictions but, unfortunately, is noncomputable
+We can, however, set ourselves the task of approximating the universal predictor as well as possible
+In Section we formally introduce the notion of conformal predictors and state a simple result about their validity
+In that section we also briefly describe results of computer experiments demonstrating the methodology of conformal prediction
+In Section we consider an example demonstrating how conformal predictors react to the violation of our model of the stochastic mechanism generating the data within the framework of the randomness assumption
+If the model coincides with the actual stochastic mechanism, we can construct an optimal conformal predictor, which turns out to be almost as good as the Bayes-optimal confidence predictor the formal definitions will be given later
+When the stochastic mechanism significantly deviates from the model, conformal predictions remain valid but their efficiency inevitably suffers
+The Bayes-optimal predictor starts producing very misleading results which superficially look as good as when the model is correct
+In Section we describe the ``on-line'' setting of the problem of prediction, and in Section contrast it with the more standard ``batch'' setting
+The notion of validity introduced in Section is applicable to both settings, but in the on-line setting it can be strengthened: we can now prove that the percentage of the erroneous predictions will be close, with high probability, to a chosen confidence level
+For the batch setting, the stronger property of validity for conformal predictors remains an empirical fact
+In Section we also discuss limitations of the on-line setting and introduce new settings intermediate between on-line and batch
+To a large degree, conformal predictors still enjoy the stronger property of validity for the intermediate settings
+Section is devoted to the discussion of the difference between two kinds of inference from empirical data, induction and transduction emphasized by Vladimir Vapnik
+Conformal predictors belong to transduction, but combining them with elements of induction can lead to a significant improvement in their computational efficiency Section
+We show how some popular methods of machine learning can be used as underlying algorithms for hedged prediction
+We do not give the full description of these methods and refer the reader to the existing readily accessible descriptions
+This paper is, however, self-contained in the sense that we explain all features of the underlying algorithms that are used in hedging their predictions
+We hope that the information we provide will enable the reader to apply our hedging techniques to their favourite machine-learning methods
+Symbolic dynamics has proven to be an invaluable tool in analyzing the mechanisms that lead to unpredictability and random behavior in nonlinear dynamical systems
+Surprisingly, a discrete partition of continuous state space can produce a coarse-grained description of the behavior that accurately describes the invariant properties of an underlying chaotic attractor
+In particular, measures of the rate of information production -the topological and metric entropy rates -can be estimated from the outputs of Markov or generating partitions
+Here we develop Bayesian inference for SYMBOL -th order Markov chains as a method to finding generating partitions and estimating entropy rates from finite samples of discretized data produced by coarse-grained dynamical systems
+Research on chaotic dynamical systems during the last forty years produced a new vision of the origins of randomness
+It is now widely understood that observed randomness can be generated by low-dimensional deterministic systems that exhibit a chaotic attractor
+Today, when confronted with what appears to be a high-dimensional stochastic process, one now asks whether or not the process is instead a hidden low-dimensional, but nonlinear dynamical system
+This awareness, though, requires a new way of looking at apparently random data since chaotic dynamics are very sensitive to the measurement process , which is both a blessing and a curse, as it turns out
+Symbolic dynamics, as one of a suite of tools in dynamical systems theory, in its most basic form addresses this issue by considering a coarse-grained view of a continuous dynamics In this sense, any finite-precision instrument that measures a chaotic system induces a symbolic representation of the underlying continuous-valued behavior
+To effectively model time series of discrete data from a continuous-state system two concerns must be addressed
+First, we must consider the measurement instrument and the representation of the true dynamics which it provides
+Second, we must consider the inference of models based on this data
+The relation between these steps is more subtle than one might expect
+As we will demonstrate, on the one hand, in the measurement of chaotic data, the instrument should be designed to maximize the entropy rate of the resulting data stream
+This allows one to extract as much information from each measurement as possible
+On the other hand, model inference strives to minimize the apparent randomness entropy rate over a class of alternative models
+This reflects a search for determinism and structure in the data
+Here we address the interplay between optimal instruments and optimal models by analyzing a relatively simple nonlinear system
+We consider the design of binary-output instruments for chaotic maps with additive noise
+We then use Bayesian inference of a SYMBOL -th order Markov chain to model the resulting data stream
+Our model system is a one-dimensional chaotic map with additive noise SYMBOL    where SYMBOL , SYMBOL , and SYMBOL is Gaussian random variable with mean zero and variance SYMBOL
+To start we consider the design of instruments in the zero-noise limit
+This is the regime of most previous work in symbolic dynamics and provides a convenient frame of reference
+The construction of a symbolic dynamics representation of a continuous-state system goes as follows
+We assume time is discrete and consider a map SYMBOL from the state space SYMBOL to itself SYMBOL
+This space can partitioned into a finite set SYMBOL of nonoverlapping regions in many ways
+The most powerful is called a Markov partition and must satisfy two conditions
+First, the image of each region SYMBOL must be a union of intervals: SYMBOL
+Second, the map SYMBOL , restricted to an interval, must be one-to-one and onto
+If a Markov partition cannot be found for the system under consideration, the next best coarse-graining is called a generating partition
+For one dimensional maps, these are often easily found using the extrema of SYMBOL -its critical points
+The critical points in the map are used to divide the state space into intervals SYMBOL over which SYMBOL is monotone
+Note that Markov partitions are generating, but the converse is not generally true
+Given any partition SYMBOL , then, a series of continuous-valued states SYMBOL can be projected onto its symbolic representation SYMBOL
+The latter is simply the associated sequence of partition-element indices
+This is done by defining an operator SYMBOL that returns a unique symbol SYMBOL for each SYMBOL from an alphabet SYMBOL when SYMBOL
+The central result in symbolic dynamics establishes that, using a generating partition, increasingly long sequences of observed symbols identify smaller and smaller regions of the state space
+Starting the system in such a region produces the associated measurement symbol sequence
+In the limit of infinite symbol sequences, the result is a discrete-symbol representation of a continuous-state system -a representation that, as we will show, is often much easier to analyze
+In this way a chosen partition creates a symbol sequence SYMBOL which describes the continuous dynamics as a sequence of symbols
+The choice of partition then is equivalent to our instrument-design problem
+The effectiveness of a partition in the zero noise limit can be quantified by estimating the entropy rate of the resulting symbolic sequence
+To do this we consider length- SYMBOL words SYMBOL
+The block entropy of length- SYMBOL sequences obtained from partition SYMBOL is then SYMBOL    where SYMBOL is the probability of observing the word SYMBOL
+From the block entropy the entropy rate can be estimated as the following limit SYMBOL    In practice it is often more accurate to calculate the length- SYMBOL estimate of the entropy rate using SYMBOL    Another key result in symbolic dynamics says that the entropy of the original continuous system is found using generating partitions
+In particular, the true entropy rate maximizes the estimated entropy rates: SYMBOL    Thus, translated into a statement about experiment design, the results tell us to design an instrument so that it maximizes the observed entropy rate
+This reflects the fact that we want each measurement to produce the most information possible
+As a useful benchmark on this, useful only in the case when we know SYMBOL , Piesin's Identity tells us that the value of SYMBOL is equal the sum of the positive Lyapunov characteristic exponents: SYMBOL
+For one-dimensional maps there is a single Lyapunov exponent which is numerically estimated from the map SYMBOL and observed trajectory SYMBOL using SYMBOL    Taken altogether, these results tell us how to design our instrument for effective observation of deterministic chaos
+Notably, in the presence of noise no such theorems exist
+However, demonstrated the methods developed above are robust in the presence of noise
+In any case, we view the output of the instrument as a stochastic process
+A sample realization SYMBOL of length SYMBOL with measurements taken from a finite alphabet is the basis for our inference problem: SYMBOL
+For our purposes here, the sample is generated by a partition of continuous-state sequences from iterations of a one-dimensional map and that states are on a chaotic attractor
+This means, in particular, that the stochastic process is stationary
+We assume, in addition, that the alphabet is binary SYMBOL
+We develop a new collaborative filtering CF method that combines both previously known users' preferences, ie standard CF, as well as product  user attributes, ie classical function approximation, to predict a given user's interest in a particular product
+Our method is a generalized low rank matrix completion problem, where we learn a function whose inputs are pairs of vectors the standard low rank matrix completion problem being a special case where the inputs to the function are the row and column indices of the matrix
+We solve this generalized matrix completion problem using tensor product kernels for which we also formally generalize standard kernel properties
+Benchmark experiments on movie ratings show the advantages of our generalized matrix completion method over the standard matrix completion one with no information about movies or people, as well as over standard multi-task or single task learning methods
+Collaborative Filtering CF refers to the task of predicting preferences of a given user based on their previously known preferences as well as the preferences of other users
+In a book recommender system, for example, one would like to suggest new books to a customer based on what he and others have recently read or purchased
+This can be formulated as the problem of filling a matrix with customers as rows, objects e g , books as columns, and missing entries corresponding to preferences that one would like to infer
+In the simplest case, a preference could be a binary variable thumbs up  down , or perhaps even a more quantitative assessment scale of 1 to 5
+Standard CF assumes that nothing is known about the users or the objects apart from the preferences expressed so far
+In such a setting the most common assumption is that preferences can be decomposed into a small number of factors, both for users and objects, resulting in the search for a low-rank matrix which approximates the partially observed matrix of preferences
+This problem is usually a difficult non-convex problem for which only heuristic algorithms exist
+Alternatively convex formulations have been obtained by relaxing the rank constraint by constraining the trace norm of the matrix
+In many practical applications of CF, however, a description of the users and  or the objects through attributes e g , gender, age or measures of similarity is available
+In that case it is tempting to take advantage of both known preferences and descriptions to model the preferences of users
+An important benefit of such a framework over pure CF is that it potentially allows the prediction of preferences for new users and  or new objects
+Seen as learning a preference function from examples, this problem can be solved by virtually any algorithm for supervised classification or regression taking as input a pair user, object
+If we suppose for example that a positive definite kernel between pairs can be deduced from the description of the users and object, then learning algorithms like support vector machines or kernel ridge regression can be applied
+These algorithms minimize an empirical risk over a ball of the reproducing kernel Hilbert space RKHS defined by the pairwise kernel
+Both the rank constraint and the RKHS norm restriction act as regularization based on prior hypothesis about the nature of the preferences to be inferred
+The rank constraint is based on the hypothesis that preferences can be modelled by a limited number or factors to describe users and objects
+The RKHS norm constraint assumes that preferences vary smoothly between similar users and similar objects, where the similarity is assessed in terms of the kernel for pairs
+The main contribution of this work is to propose a framework which combines both regularizations on the one hand, and which interpolates between the pure CF approach and the pure attribute-based approaches on the other hand
+In particular, the framework encompasses low-rank matrix factorization for collaborative filtering, multi-task learning, and classical regression  classification over product spaces
+We show on a benchmark experiment of movie recommendations that the resulting algorithm can lead to significant improvements over other state-of-the-art methods
+We propose a method for improving approximate inference methods that corrects for the influence of loops in the graphical model
+The method is applicable to arbitrary factor graphs, provided that the size of the Markov blankets is not too large
+It is an alternative implementation of an idea introduced recently by
+In its simplest form, which amounts to the assumption that no loops are present, the method reduces to the minimal Cluster Variation Method approximation which uses maximal factors as outer clusters
+On the other hand, using estimates of the effect of loops obtained by some approximate inference algorithm and applying the Loop Correcting LC method usually gives significantly better results than applying the approximate inference algorithm directly without loop corrections
+Indeed, we often observe that the loop corrected error is approximately the square of the error of the approximate inference method used to estimate the effect of loops
+We compare different variants of the Loop Correcting method with other approximate inference methods on a variety of graphical models, including ``real world'' networks, and conclude that the LC approach generally obtains the most accurate results
+In recent years, much research has been done in the field of approximate inference on graphical models
+One of the goals is to obtain accurate approximations of marginal probabilities of complex probability distributions defined over many variables, using limited computation time and memory
+This research has led to a large number of approximate inference methods
+Apart from sampling ``Monte Carlo'' methods, the most well-known methods and algorithms are variational approximations such as Mean Field MF , which originates in statistical physics ; Belief Propagation BP , also known as the Sum-Product Algorithm and as Loopy Belief Propagation , which is directly related to the Bethe approximation used in statistical physics ; the Cluster Variation Method CVM and other region-based approximation methods , which are related to the Kikuchi approximation , a generalization of the Bethe approximation using larger clusters; Expectation Propagation EP , which includes TreeEP as a special case
+To calculate the results of CVM and other region based approximation methods, one can use the Generalized Belief Propagation GBP algorithm or double-loop algorithms that have guaranteed convergence
+It is well-known that Belief Propagation yields exact results if the graphical model is a tree, or, more generally, if each connected component is a tree
+If the graphical model does contain loops, BP can still yield surprisingly accurate results using little computation time
+However, if the influence of loops is large, the approximate marginals calculated by BP can have large errors and the quality of the BP results may not be satisfactory
+One way to correct for the influence of short loops is to increase the cluster size of the approximation, using CVM GBP with clusters that subsume as many loops as possible
+However, choosing a good set of clusters is highly nontrivial , and in general this method will only work if the clusters do not have many intersections, or in other words, if the loops do not have many intersections
+Another method that corrects for loops to a certain extent is TreeEP, which does exact inference on the base tree, a subgraph of the graphical model which has no loops, and approximates the other interactions
+This corrects for the loops that consist of part of the base tree and exactly one additional factor and yields good results if the graphical model is dominated by the base tree, which is the case in very sparse models
+However, loops that consist of two or more interactions that are not part of the base tree are approximated in a similar way as in BP
+Hence, for denser models, the improvement of TreeEP over BP usually diminishes
+In this article we propose a method that takes into account all the loops in the graphical model in an approximate way and therefore obtains more accurate results in many cases
+Our method is a variation on the theme introduced by
+The basic idea is to first estimate the cavity distributions of all variables and subsequently improve these estimates by cancelling out errors using certain consistency constraints
+A cavity distribution of some variable is the probability distribution on its Markov blanket all its neighbouring variables of a modified graphical model, in which all factors involving that variable have been removed
+The removal of the factors breaks all the loops in which that variable takes part
+This allows an approximate inference algorithm to estimate the strength of these loops in terms of effective interactions or correlations between the variables of the Markov blanket
+Then, the influence of the removed factors is taken into account, which yields accurate approximations to the probability distributions of the original graphical model
+Even more accuracy is obtained by imposing certain consistency relations between the cavity distributions, which results in a cancellation of errors to some extent
+This error cancellation is done by a message passing algorithm which can be interpreted as a generalization of BP in the pairwise case and of the minimal CVM approximation in general
+Indeed, the assumption that no loops are present, or equivalently, that the cavity distributions factorize, yields the BP    minimal CVM results
+On the other hand, using better estimates of the effective interactions in the cavity distributions yields accurate loop corrected results
+Although the basic idea underlying our method is very similar to that described in , the alternative implementation that we propose here offers two advantages
+Most importantly, it is directly applicable to arbitrary factor graphs, whereas the original method has only been formulated for the rather special case of graphical models with binary variables and pairwise factors, which excludes eg    many interesting Bayesian networks
+Furthermore, our implementation appears to be more robust and also gives improved results for relatively strong interactions, as will be shown numerically
+This article is organised as follows
+First we explain the theory behind our proposed method and discuss the differences with the original method by
+Then we report extensive numerical experiments regarding the quality of the approximation and the computation time, where we compare with other approximate inference methods
+Finally, we discuss the results and state conclusions
+Approximation of the optimal two-part MDL code for given data, through successive monotonically length-decreasing two-part MDL codes, has the following properties: computation of each step may take arbitrarily long and we may not know when we reach the optimum, or whether we will reach the optimum at all
+To express the practically interesting goodness of fit of individual models for individual data sets we have to rely on Kolmogorov complexity
+In machine learning pure applications of MDL are rare, partially because of the difficulties one encounters trying to define an adequate model code and data-to-model code, and partially because of the operational difficulties that are poorly understood
+We analyze aspects of both the power and the perils of MDL precisely and formally
+Let us first resurrect a familiar problem from our childhood to illustrate some of the issues involved
+The process of solving a jigsaw puzzle involves an incremental reduction of entropy , and this serves to illustrate the analogous features of the learning problems which are the main issues of this work
+Initially, when the pieces come out of the box they have a completely random ordering
+Gradually we combine pieces, thus reducing the entropy and increasing the order until the puzzle is solved
+In this last stage we have found a maximal ordering
+Suppose that Alice and Bob both start to solve two versions of the same puzzle, but that they follow different strategies
+Initially, Alice sorts all pieces according to color, and Bob starts by sorting the pieces according to shape For the sake of argument we assume that the puzzle has no recognizable edge pieces The crucial insight, shared by experienced puzzle aficionados, is that Alice's strategy is efficient whereas Bob's strategy is not and is in fact even worse than a random strategy
+Alice's strategy is efficient, since the probability that pieces with about the same color match is much greater than the unconditional probability of a match
+On the other hand the information about the shape of the pieces can only be used in a relatively late stage of the puzzle process
+Bob's effort in the beginning is a waste of time, because he must reorder the pieces before he can proceed to solve the puzzle
+This example shows that if the solution of a problem depends on finding a maximal reduction of entropy this does not mean that every reduction of entropy brings us closer to the solution
+Consequently reduction of entropy is not in all cases a good strategy
+Kohonen self-organisation maps are a well know classification tool, commonly used in a wide variety of problems, but with limited applications in time series forecasting context
+In this paper, we propose a forecasting method specifically designed for multi-dimensional long-term trends prediction, with a double application of the Kohonen algorithm
+Practical applications of the method are also presented
+Time series forecasting is a problem encountered in many fields of applications, as finance returns, stock markets , hydrology river floods , engineering electrical consumption , etc
+Many methods designed for time series forecasting perform well depending on the complexity of the problem on a rather short-term horizon but are rather poor on a longer-term one
+This is due to the fact that these methods are usually designed to optimize the performance at short term, their use at longer term being not optimized
+Furthermore, they generally carry out the prediction of a single value while the real problem sometimes requires predicting a vector of future values in one step
+For example, in the case of some a priori known periodicity, it could be interesting to predict all values for a period as a whole
+But forecasting a vector requires either more complex models with potential loss of performance for some of the vector components or many distinct single value predicting models with potential loss of the correlation information between the various values
+Methods able to forecast a whole vector with the same precision for each of its components are thus of great interest
+While enlarging the prediction horizon is of course of primary interest for practitioners, there is of course some limit to the accuracy that can be expected for a long-term forecast
+The limitation is due to the availability of the information itself, and not to possible limitations of the forecasting methods
+Indeed, there is no doubt that, whatever forecasting method is used, predicting at long term i e many time steps in advance is more difficult that predicting at short term, because of the missing information in the unknown future time steps those between the last known value and the one to predict
+At some term, all prediction methods will thus fail
+The purpose of the method presented in this paper is not to enlarge the time horizon for which accurate predictions could be expected, but rather to enlarge the horizon for which we can have insights about the future evolution of the series
+By insights, we mean some information of interest to the practitioner, even if it does not mean accurate predictions
+For example, are there bounds on the future values
+What can we expect in average
+Are confidence intervals on future values large or narrow
+Predicting many steps in advance could be realized in a straightforward way, by subsampling the known sequence, then using any short-term prediction method
+However, in this case, the loss of information used for the forecast is obviously even higher, due to the lower resolution of the known sequence
+Furthermore, such solution does not allow in a general way to introduce a stochastic aspect to the method, which is a key issue in the proposed method
+Indeed, to get insights about the future evolution of a series through some statistics expected mean, variance, confidence intervals, quartiles, etc , several predictions should be made in order to extract such statistics
+The predictions should differ; a stochastic prediction method is able to generate several forecasts by repeated Monte-Carlo runs
+In the method presented in this paper, the stochastic character of the method results from the use of random draws on a probability law
+Another attractive aspect of the method presented in this paper is that it can be used to predict scalar values or vectors, with the same expected precision for each component in the case of vector prediction
+Having at disposal a time series of values SYMBOL with SYMBOL , the prediction of a vector can be defined as follows : SYMBOL    where SYMBOL is the size of the vector to be predicted, SYMBOL is the data generating process, SYMBOL is the number of past values that influence the future values and SYMBOL is a centred noise vector
+The past values are gathered in a SYMBOL -dimensional vector called regressor
+The knowledge of SYMBOL values of the time series with SYMBOL and SYMBOL means that relation is known for many SYMBOL time steps in the past
+The modeling problem then becomes to estimate a function SYMBOL that models correctly the time series for the whole set of past regressors
+The idea of the method is to segment the space of SYMBOL -dimensional regressors
+This segmentation can be seen as a way to make possible a local modeling in each segment
+This part of the method is achieved using the Self-Organizing Map SOM
+The prototypes obtained for each class model locally the regressors of the corresponding class
+Furthermore, in order to take into account temporal dependences in the series, deformation regressors are built
+Those vectors are constructed as the differences between two consecutive regressors
+The set of regressor deformations can also be segmented using the SOM
+Once those two spaces are segmented and their dependences characterized, simulations can be performed
+Using a kind of Monte-Carlo procedure to repeat the simulations, it is then possible to estimate the distribution of these simulations and to forecast global trends of the time series at long term
+Though we could have chosen some other classical vector quantization VQ method as only the clustering property is of interest here, the choice of the SOM tool to perform the segmentation of the two spaces is justified by the fact that SOM are efficient and fast compared to other VQ methods with a limited complexity and that they provide an intuitive and helpful graphical representation
+In the following of this paper, we first recall some basic concepts about the SOM classification tool
+Then we introduce the proposed forecasting method, the double vector quantization, for scalar time series and then for vector ones
+Next we present some experimental results for both scalar and vector forecastings
+A proof of the method stability is given in appendix
+Because query execution is the most crucial part of Inductive Logic Programming ILP algorithms, a lot of effort is invested in developing faster execution mechanisms
+These execution mechanisms typically have a low-level implementation, making them hard to debug
+Moreover, other factors such as the complexity of the problems handled by ILP algorithms and size of the code base of ILP data mining systems make debugging at this level a very difficult job
+In this work, we present the trace-based debugging approach currently used in the development of new execution mechanisms in hipP, the engine underlying the ACE Data Mining system
+This debugger uses the delta debugging algorithm to automatically reduce the total time needed to expose bugs in ILP execution, thus making manual debugging step much lighter
+Data mining is the process of finding patterns that describe a large set of data best
+Inductive Logic Programming ILP is a multi-relational data mining approach, which uses the Logic Programming paradigm as its basis
+ILP uses a generate-and-test approach, where in each iteration a large set of hypotheses or `queries' has to be evaluated on the data also called `examples'
+Based on the results of this evaluation, the ILP process selects the ``best'' hypotheses and refines them further
+Due to the size of the data of the problems handled by ILP, the underlying query evaluation engine e g a Prolog system is a crucial part of a real life ILP system
+Hence, a lot of effort is invested in optimizing the engine to yield faster evaluation time through the use of new execution mechanisms, different internal data representations, etc
+The development of new execution mechanisms for ILP happens mainly in the engine of the ILP system
+These optimized execution strategies typically require a low level implementation to yield significant benefits
+For example, the query pack and adpack execution mechanisms require the introduction of new dedicated WAM instructions, together with a set of new data structures which these instructions use and manipulate
+Because of their low-level nature, finding bugs in the implementation of these execution mechanisms is very hard
+While tracing bugs in these low-level implementations might still be feasible for small test programs, many bugs only appear during the execution of the ILP algorithm on real life data sets
+Several factors make debugging in this situation difficult: The size of the ILP system itself
+Real life ILP systems group the implementation of many algorithms into one big system
+These systems therefore often have a very large code base
+For example, the ACE system consists of over 150000 lines of code
+In the case of the ACE system, the code base is very heterogeneous, where parts of code are written in different languages and others are generated automatically using preprocessors etc
+This makes it in practice very hard to use standard tracing to detect bugs
+The complexity  size of the ILP problem
+With large datasets, it can take a very long time hours, even days before a specific bug occurs
+When debugging, one typically performs multiple runs with small modifications to pin-point the exact problem, and so long execution times make this approach infeasible
+The high complexity of the hypothesis generation phase
+While the evaluation of hypotheses is often the bottleneck, some algorithms such as rule learners have a very expensive hypothesis generation phase
+This phase is independent from the execution of the queries itself, and as such has no influence on the exposure of the bug
+For algorithms with a very complex hypothesis generation, it can take a very long time for the bug in the execution mechanism to expose itself, even when the time spent on executing these queries is small
+Non-determinacy of ILP algorithms
+If an ILP algorithm makes random decisions typically in the hypothesis generation phase , the exact point in time where the bug occurs changes from run to run
+It is even possible that the bug does not occur at all in certain runs
+In , we proposed a trace-based approach for analyzing and debugging ILP data mining execution
+This approach allowed easy and fast debugging of the underlying query execution engines, independent of the ILP algorithm causing the bug to appear
+In this work, we present an extension to this debugging approach, automating a large part of the debugging process
+By applying the delta debugging algorithm on ILP execution traces, we automatically generate minimal traces exposing a bug, thus greatly reducing the time and effort needed to track the bug down
+This approach is currently used in the development of new execution mechanisms in hipP , the engine underlying the ACE Data Mining system      The organization of this paper is as follows: In Section , we give a brief introduction to Inductive Logic Programming
+Section discusses the collection of the run-time information necessary for our trace-based debugging approach
+Section then discusses applying the delta debugging algorithm on these traces to allow fast and easy debugging
+We briefly discuss the implementation of our delta debugger in Section
+Finally, we conclude in Section 7
+We bound the future loss when predicting any computably stochastic sequence online
+Solomonoff finitely bounded the total deviation of his universal predictor SYMBOL from the true distribution SYMBOL by the algorithmic complexity of SYMBOL
+Here we assume that we are at a time SYMBOL and have already observed SYMBOL
+We bound the future prediction performance on SYMBOL by a new variant of algorithmic complexity of SYMBOL given SYMBOL , plus the complexity of the randomness deficiency of SYMBOL
+The new complexity is monotone in its condition in the sense that this complexity can only decrease if the condition is prolonged
+We also briefly discuss potential generalizations to Bayesian model classes and to classification problems
+We consider the problem of online=sequential predictions
+We assume that the sequences SYMBOL are drawn from some ``true'' but unknown probability distribution SYMBOL
+Bayesians proceed by considering a class SYMBOL of models=hypotheses=distributions, sufficiently large such that SYMBOL , and a prior over SYMBOL
+Solomonoff considered the truly large class that contains all computable probability distributions
+He showed that his universal distribution SYMBOL converges rapidly to SYMBOL , i e    predicts well in any environment as long as it is computable or can be modeled by a computable probability distribution all physical theories are of this sort
+SYMBOL is roughly SYMBOL , where SYMBOL is the length of the shortest description of SYMBOL , called the Kolmogorov complexity of SYMBOL
+Since SYMBOL and SYMBOL are incomputable, they have to be approximated in practice
+See eg and references therein
+The universality of SYMBOL also precludes useful statements about the prediction quality at particular time instances SYMBOL , as opposed to simple classes like iid    sequences data of size SYMBOL , where accuracy is typically SYMBOL
+Luckily, bounds on the expected total =cumulative loss e g    number of prediction errors for SYMBOL can be derived , which is often sufficient in an online setting
+The bounds are in terms of the Kolmogorov complexity of SYMBOL
+For instance, for deterministic SYMBOL , the number of errors is in a sense tightly bounded by SYMBOL which measures in this case the information in bits in the observed infinite sequence SYMBOL
+In this paper we assume we are at a time SYMBOL and have already observed SYMBOL
+Hence we are interested in the future prediction performance on SYMBOL , since typically we don't care about past errors
+If the total loss is finite, the future loss must necessarily be small for large SYMBOL
+In a sense the paper intends to quantify this apparent triviality
+If the complexity of SYMBOL bounds the total loss, a natural guess is that something like the conditional complexity of SYMBOL given SYMBOL bounds the future loss If SYMBOL contains a lot of or even all information about SYMBOL , we should make fewer no errors anymore Indeed, we prove two bounds of this kind but with additional terms describing structural properties of SYMBOL
+These additional terms appear since the total loss is bounded only in expectation, and hence the future loss is small only for ``most'' SYMBOL
+In the first bound Theorem , the additional term is the complexity of the length of SYMBOL a kind of worst-case estimation
+The second bound Theorem is finer: the additional term is the complexity of the randomness deficiency of SYMBOL
+The advantage is that the deficiency is small for ``typical'' SYMBOL and bounded on average in contrast to the length
+But in this case the conventional conditional complexity turned out to be unsuitable
+So we introduce a new natural modification of conditional Kolmogorov complexity, which is monotone as a function of condition
+Informally speaking, we require programs =descriptions to be consistent in the sense that if a program generates some SYMBOL given SYMBOL , then it must generate the same SYMBOL given any prolongation of SYMBOL
+The new posterior bounds also significantly improve upon the previous total bounds
+The paper is organized as follows
+Some basic notation and definitions are given in Sections and
+In Section we prove and discuss the length-based bound Theorem
+In Section we show why a new definition of complexity is necessary and formulate the deficiency-based bound Theorem
+We discuss the definition and basic properties of the new complexity in Section , and prove Theorem in Section
+We briefly discuss potential generalizations to general model classes SYMBOL and classification in the concluding Section
+Sequential decision theory formally solves the problem of rational agents in uncertain worlds if the true environmental prior probability distribution is known
+Solomonoff's theory of universal induction formally solves the problem of sequence prediction for unknown prior distribution
+We combine both ideas and get a parameter-free theory of universal Artificial Intelligence
+We give strong arguments that the resulting AIXI model is the most intelligent unbiased agent possible
+We outline how the AIXI model can formally solve a number of problem classes, including sequence prediction, strategic games, function minimization, reinforcement and supervised learning
+The major drawback of the AIXI model is that it is uncomputable
+To overcome this problem, we construct a modified algorithm AIXI SYMBOL that is still effectively more intelligent than any other time SYMBOL and length SYMBOL bounded agent
+The computation time of AIXI SYMBOL is of the order SYMBOL
+The discussion includes formal definitions of intelligence order relations, the horizon problem and relations of the AIXI theory to other AI approaches
+This chapter article gives an introduction to a mathematical theory for intelligence
+We present the AIXI model, a parameter-free optimal reinforcement learning agent embedded in an arbitrary unknown environment
+The science of Artificial Intelligence AI may be defined as the construction of intelligent systems and their analysis
+A natural definition of a system is anything that has an input and an output stream
+Intelligence is more complicated
+It can have many faces like creativity, solving problems, pattern recognition, classification, learning, induction, deduction, building analogies, optimization, surviving in an environment, language processing, knowledge and many more
+A formal definition incorporating every aspect of intelligence, however, seems difficult
+Most, if not all known facets of intelligence can be formulated as goal-driven or, more precisely, as maximizing some utility function
+It is, therefore, sufficient to study goal-driven AI; eg    the biological goal of animals and humans is to survive and spread
+The goal of AI systems should be to be useful to humans
+The problem is that, except for special cases, we know neither the utility function nor the environment in which the agent will operate in advance
+The mathematical theory, coined AIXI, is supposed to solve these problems
+Assume the availability of unlimited computational resources
+The first important observation is that this does not make the AI problem trivial
+Playing chess optimally or solving NP-complete problems become trivial, but driving a car or surviving in nature don't
+This is because it is a challenge itself to well-define the latter problems, not to mention presenting an algorithm
+In other words: The AI problem has not yet been well defined
+One may view AIXI as a suggestion for such a mathematical definition of AI
+AIXI is a universal theory of sequential decision making akin to Solomonoff's celebrated universal theory of induction
+Solomonoff derived an optimal way of predicting future data, given previous perceptions, provided the data is sampled from a computable probability distribution
+AIXI extends this approach to an optimal decision making agent embedded in an unknown environment
+The main idea is to replace the unknown environmental distribution SYMBOL in the Bellman equations by a suitably generalized universal Solomonoff distribution SYMBOL
+The state space is the space of complete histories
+AIXI is a universal theory without adjustable parameters, making no assumptions about the environment except that it is sampled from a computable distribution
+From an algorithmic complexity perspective, the AIXI model generalizes optimal passive universal induction to the case of active agents
+From a decision-theoretic perspective, AIXI is a suggestion of a new implicit ``learning'' algorithm, which may overcome all except computational problems of previous reinforcement learning algorithms
+There are strong arguments that AIXI is the most intelligent unbiased agent possible
+We outline for a number of problem classes, including sequence prediction, strategic games, function minimization, reinforcement and supervised learning, how the AIXI model can formally solve them
+The major drawback of the AIXI model is that it is incomputable
+To overcome this problem, we construct a modified algorithm AIXI SYMBOL that is still effectively more intelligent than any other time SYMBOL and length SYMBOL bounded agent
+The computation time of AIXI SYMBOL is of the order SYMBOL
+Other discussed topics are a formal definition of an intelligence order relation, the horizon problem and relations of the AIXI theory to other AI approaches
+The article is meant to be a gentle introduction to and discussion of the AIXI model
+For a mathematically rigorous treatment, many subtleties, and proofs see the references to the author's works in the annotated bibliography section at the end of this chapterarticle  fi, and in particular the book
+This section also provides references to introductory textbooks and original publications on algorithmic information theory and sequential decision theory
+presents the theory of sequential decisions in a very general form called AI SYMBOL model in which actions and perceptions may depend on arbitrary past events
+We clarify the connection to the Bellman equations and discuss minor parameters including the size of the I  O spaces and the lifetime of the agent and their universal choice which we have in mind
+Optimality of AI SYMBOL is obvious by construction
+How and in which sense induction is possible at all has been subject to long philosophical controversies
+Highlights are Epicurus' principle of multiple explanations, Occam's razor, and probability theory
+Solomonoff elegantly unified all these aspects into one formal theory of inductive inference based on a universal probability distribution SYMBOL , which is closely related to Kolmogorov complexity SYMBOL , the length of the shortest program computing SYMBOL
+Rapid convergence of SYMBOL to the unknown true environmental distribution SYMBOL and tight loss bounds for arbitrary bounded loss functions and finite alphabet can be shown
+Pareto optimality of SYMBOL in the sense that there is no other predictor that performs better or equal in all environments and strictly better in at least one can also be shown
+In view of these results it is fair to say that the problem of sequence prediction possesses a universally optimal solution
+In the active case, reinforcement learning algorithms are usually used if SYMBOL is unknown
+They can succeed if the state space is either small or has effectively been made small by generalization techniques
+The algorithms work only in restricted e g    Markovian domains, have problems with optimally trading off exploration versus exploitation, have nonoptimal learning rate, are prone to diverge, or are otherwise ad hoc
+The formal solution proposed here is to generalize Solomonoff's universal prior SYMBOL to include action conditions and replace SYMBOL by SYMBOL in the AI SYMBOL model, resulting in the AI SYMBOL AIXI model, which we claim to be universally optimal
+We investigate what we can expect from a universally optimal agent and clarify the meanings of universal , optimal , etc
+Other discussed topics are formal definitions of an intelligence order relation, the horizon problem, and Pareto optimality of AIXI
+We show how a number of AI problem classes fit into the general AIXI model
+They include sequence prediction, strategic games, function minimization, and supervised learning
+We first formulate each problem class in its natural way for known SYMBOL and then construct a formulation within the AI SYMBOL model and show their equivalence
+We then consider the consequences of replacing SYMBOL by SYMBOL
+The main goal is to understand in which sense the problems are solved by AIXI
+The major drawback of AIXI is that it is incomputable, or more precisely, only asymptotically computable, which makes an implementation impossible
+To overcome this problem, we construct a modified model AIXI SYMBOL , which is still superior to any other time SYMBOL and length SYMBOL bounded algorithm
+The computation time of AIXI SYMBOL is of the order SYMBOL
+The solution requires an implementation of first-order logic, the definition of a universal Turing machine within it and a proof theory system
+Finally we discuss and remark on some otherwise unmentioned topics of general interest
+We remark on various topics, including concurrent actions and perceptions, the choice of the I  O spaces, treatment of encrypted information, and peculiarities of mortal embodies agents
+We continue with an outlook on further research, including optimality, down-scaling, implementation, approximation, elegance, extra knowledge, and training of  for AIXI SYMBOL
+We also include some personal remarks on non-computable physics, the number of wisdom SYMBOL , and consciousness
+An annotated bibliography concludes this chapter
+An annotated bibliography and other references conclude this work
+We propose simple randomized strategies for sequential decision or prediction under imperfect monitoring, that is, when the decision maker forecaster does not have access to the past outcomes but rather to a feedback signal
+The proposed strategies are consistent in the sense that they achieve, asymptotically, the best possible average reward among all fixed actions
+It was Rustichini who first proved the existence of such consistent predictors
+The forecasters presented here offer the first constructive proof of consistency
+Moreover, the proposed algorithms are computationally efficient
+We also establish upper bounds for the rates of convergence
+In the case of deterministic feedback signals, these rates are optimal up to logarithmic terms
+In sequential decision problems a decision maker or forecaster tries to predict the outcome of a certain unknown process at each discrete time instance and takes an action accordingly
+Depending on the outcome of the predicted event and the action taken, the decision maker receives a reward
+Very often, probabilistic modeling of the underlying process is difficult
+For such situations the prediction problem can be formalized as a repeated game between the decision maker and the environment
+This formulation goes back to the 1950's when Hannan and Blackwell showed that the decision maker has a randomized strategy that guarantees, regardless of the outcome sequence, an average asymptotic reward as high as the maximal reward one could get by knowing the empirical distribution of the outcome sequence in advance
+Such strategies are called Hannan consistent
+To prove this result, Hannan and Blackwell assumed that the decision maker has full access to the past outcomes
+This case is termed the full information or the perfect monitoring case
+However, in many important applications, the decision maker has limited information about the past elements of the sequence to be predicted
+Various models of limited feedback have been considered in the literature
+Perhaps the best known of them is the so-called multi-armed bandit problem in which the forecaster is only informed of its own reward but not the actual outcome; see Ba   nos , Megiddo , Foster and Vohra , Auer, Cesa-Bianchi, Freund, and Schapire , Hart and Mas Colell
+For example, it is shown in that Hannan consistency is achievable in this case as well
+Sequential decision problems like the ones considered in this paper have been studied in different fields under various names such as repeated games, regret minimization, on-line learning, prediction of individual sequences, and sequential prediction
+The vocabulary of different sub-communities differ
+Ours is perhaps closest to that used by learning theorists
+For a general introduction and survey of the sequential prediction problem we refer to Cesa-Bianchi and Lugosi
+In this paper we consider a general model in which the information available to the forecaster is a general given possibly randomized function of the outcome and the decision of the forecaster
+It is well understood under what conditions Hannan consistency is achievable in this setup, see Piccolboni and Schindelhauer and Cesa-Bianchi, Lugosi, and Stoltz
+Roughly speaking, this is possible whenever, after suitable transformations of the problem, the reward matrix can be expressed as a linear function of the matrix of expected feedback signals
+However, this condition is not always satisfied and then the natural question is what the best achievable performance for the decision maker is
+This question was answered by Rustichini who characterized the maximal achievable average reward that can be guaranteed asymptotically for all possible outcome sequences in an almost sure sense
+However, Rustichini's proof of achievability is not constructive
+It uses abstract approachability theorems due to Mertens, Sorin, and Zamir and it seems unlikely that his proof method can give rise to computationally efficient prediction algorithms, as noted in the conclusion of
+A simplified efficient approachability-based strategy in the special case where the feedback is a function of the action of nature alone was shown in Mannor and Shimkin
+In the general case, the simplified approachability-based strategy of falls short of the maximal achievable average reward characterized by Rustuchini
+The goal of this paper is to develop computationally efficient forecasters in the general prediction problem under imperfect monitoring that achieve the best possible asymptotic performance
+We introduce several forecasting strategies that exploit some specific properties of the problem at hand
+We separate four cases, according to whether the feedback signal only depends on the outcome or both on the outcome and the forecaster's action and whether the feedback signal is deterministic or not
+We design different prediction algorithms for all four cases
+As a by-product, we also obtain finite-horizon performance bounds with explicit guaranteed rates of convergence in terms of the number SYMBOL of rounds the prediction game is played
+In the case of deterministic feedback signals these rates are optimal up to logarithmic factors
+In the random feedback signal case we do not know if it is possible to construct forecasters with a significantly smaller regret
+A motivating example for such a prediction problem arises naturally in multi-access channels that are prevalent in both wired and wireless networks
+In such networks, the communication medium is shared between multiple decision makers
+It is often technically difficult to synchronize between the decision makers
+Channel sharing protocols, and, in particular, several variants of spread spectrum, allow multiple agents to use the same channel or channels that may interfere with each other simultaneously
+More specifically, consider a wireless system where multiple agents can choose in which channel to transmit data at any given time
+The quality of each channel may be different and interference from other users using this channel or other ``close'' channels may affect the base-station reception
+The transmitting agent may choose which channel to use and how much power to spend on every transmission
+The agent has a trade-off between the amount of power wasted on transmission and the cost of having its message only partially received
+The transmitting agent may not receive immediate feedback on how much data were received in the base station even if feedback is received, it often happens on a much higher layer of the communication protocol
+Instead, the transmitting agent can monitor the transmissions of the other agents
+However, since the transmitting agent is physically far from the base-station and the other agents, the information about the channels chosen by other agents and the amount of power they used is imperfect
+This naturally abstracts to an online learning problem with imperfect monitoring
+The paper is structured as follows
+In the next section we formalize the prediction problem we investigate, introduce the target quantity, that is, the best achievable reward, and the notion of regret
+In Section we describe some analytical properties of a key function SYMBOL , defined in Section
+This function represents the worst possible average reward for a given vector of observations and is needed in our analysis
+In Section we consider the simplest special case when the actions of the forecaster do not influence the feedback signal, which is, moreover, deterministic
+This case is basically as easy as the full information case and we obtain a regret bound of the order of SYMBOL with high probability where SYMBOL is the number of rounds of the prediction game
+In Section we study random feedback signals but still with the restriction that it is only determined by the outcome
+Here we are able to obtain a regret of the order of SYMBOL
+The most general case is dealt with in Section 6
+The forecaster introduced there has a regret of the order of SYMBOL
+Finally, in Section we show that this may be improved to SYMBOL in the case of deterministic feedback signals, which is known to be optimal

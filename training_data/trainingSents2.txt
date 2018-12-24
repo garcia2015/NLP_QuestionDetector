@@ -1,0 +1,596 @@
+Learning Boolean formulae in Disjunctive Normal Form DNF has been a central problem in the computational learning theory literature since Valiant's seminal paper on PAC learning
+In , it was shown that DNFs can be learned using membership queries, a form of active learning
+Jackson's algorithm, also known as Harmonic Sieve   hs , uses a clever combination of two fundamental techniques in learning, Harmonic Analysis and Boosting
+The use of Harmonic Analysis in the study of Boolean functions was introduced in 
+It was subsequently used as the basis of a learning algorithm for SYMBOL circuits in 
+The Harmonic Analysis used in the   hs   algorithm is based on a parity-finding algorithm of Goldreich and Levin , which was first applied to a learning problem by Kushilevitz and Mansour
+Hypothesis boosting, a technique to reduce the classification error of a learning algorithm, was introduced by Schapire 
+The boosting algorithm used by   hs   is actually due to Freund
+In a recent breakthrough, Bshouty et al obtained the first passive learning algorithm for DNFs
+Their algorithm is based on a modification of   hs   which focuses on low-degree Fourier coefficients
+That variant of   hs, called Bounded Sieve   bs , was first obtained in
+In ,   bs   was used to learn DNFs under the uniform distribution in two natural passive learning models
+The first one is the Random Walk model, where examples, instead of being iid , follow a random walk on the Boolean cube see also for related work 
+The second model is the closely related Noise Sensitivity model, where this time examples come in pairs, the second instance being a noisy version of the first one
+The results of are interesting in that they give a learning algorithm for DNFs in a case where the observer has no control over the examples provided
+However the problem of learning DNFs under the uniform distribution when examples are iid
+still remains open
+It is known that DNFs cannot be learned in the more restrictive Statistical Query model introduced in where one can ask only about statistics over random examples 
+Jackson also showed that   hs   applies to thresholds of parities TOP , a class that can express DNFs and decision trees with only polynomial increase in size, and extended his algorithm to the non-Boolean case of unions of rectangles, a generalization of DNFs to SYMBOL where SYMBOL
+Whether those classes of functions can be learned in the Random Walk and Noise Sensitivity models was left open by 
+Our contribution is threefold
+We first show that TOPs cannot be learned in the Noise Sensitivity model using statistical queries SQs 
+As far as we know, this is the first example of a negative result for ``second-order'' statistical queries, i e queries on pairs of examples
+This does not rule out the possibility of learning TOPs in the Random Walk model although it provides evidence that the techniques of cannot be easily extended to that case
+On the other hand, we show that a simple variant of the Random Walk model where the component updates follow a fixed cycle allows to learn TOPs efficiently
+This seems to be the first not-too-contrived passive model in which TOPs are efficiently learnable with respect to the uniform distribution
+Actually, one can perform the Harmonic Sieve in this Cyclic Random Walk model, and we also show that this model is strictly weaker than the active setting under a standard cryptographic assumption
+Finally we extend the techniques of and to the non-Boolean domain SYMBOL and use this to learn unions of rectangles in the Noise Sensitivity and Random Walk models
+This last result turns out to be rather straightforward once the proper analogues to the Boolean case are found
+In Section , we introduce the learning models and give a brief review of Fourier analysis
+The negative result for learning TOPs is derived in Section 
+The learning algorithms for TOPs and Unions of Rectangles are presented in Sections and respectively
+In this paper, we are interested in optimal decisions in a partially observable universe
+Our approach is to directly approximate an optimal strategic tree depending on the observation
+This approximation is made by means of a parameterized probabilistic law
+A particular family of hidden Markov models, with input and output, is considered as a model of policy
+A method for optimizing the parameters of these HMMs is proposed and applied
+This optimization is based on the cross-entropic principle for rare events simulation developed by Rubinstein
+There are different degrees of difficulty in planning and control problems
+In most problems, the planner have to start from a given state and terminate in a required final state
+There are several transition rules, which condition the sequence of decision
+For example, a robot may be required to move from room A, starting state, to room B, final state; its decision could be go forward , turn right or turn left , and it cannot cross a wall; these are the conditions over the decision
+A first degree in the difficulty is to find at least one solution for the planning
+When the states are only partially known or the resulting actions are not deterministic, the difficulty is quite enhanced: the planner has to take into account the various observations
+Now, the problem becomes much more complex, when this planning is required to be optimal or near-optimal
+For example, find the shortest trajectory which moves the robot from room A to room B
+There are again different degrees in the difficulty, depending on the problem to be deterministic or not, depending on the model of the future observations
+In the particular case of a Markovian problem with the full observation hypothesis, the dynamic programming principle could be efficiently applied Markov Decision Process theory MDP
+This solution has been extended to the case of partial observation Partially Observable Markov Decision Process  POMDP , but this solution is generally not practicable, owing to the huge dimension of the variables          For such reason, different methods for approximating this problem has been introduced
+For example, Reinforcement Learning methods are able to learn an evaluation table of the decision conditionnally to the known universe states and an observation short range
+In this case, the range of observation is indeed limited in time, because of an exponential grow of the table to learn
+Recent works are investigating the case of hierarchical RL, in order to go beyond this range limitation
+Whatever, these methods are generally based on an additivity hypothesis about the reward
+Another viewpoint is based on the direct learning of the policy 
+Our approach is of this kind
+It is particularly based on the Cross-Entropy optimisation algorithm developed by Rubinstein 
+This simulation method relies both on a probabilistic modelling of the policies in this paper, these models are Bayesian Networks and on an efficient and robust iterative algorithm for optimizing the model parameters
+More precisely, the policy will be modelled by conditional probabilistic law, i e decisions depending on observations, which are involving memories; typically hidden Markov models are used
+Also are implemented a hierachical modelling of the policies by means of hierarchical hidden Markov models          The next section introduces some formalism and gives a quick description of the optimal planning in partially observable universes
+It is proposed a near-optimal planning method, based on the direct approximation of the optimal decision tree
+The third section introduces the family of Hierarchical Hidden Markov Models being in use for approximating the decision trees
+The fourth section describes the method for optimizing the parameters of the HHMM, in order to approximate the optimal decision tree for the POMDP problem
+The cross-entropy method is described and applied
+The fifth section gives an example of application
+A comparison with a Reinforcement Learning method, the Q-learning, is made
+The paper is then concluded
+Suppose we are given two probability measures on the set of one-way infinite finite-alphabet sequences and consider the question when one of the measures predicts the other, that is, when conditional probabilities converge in a certain sense when one of the measures is chosen to generate the sequence
+This question may be considered a refinement of the problem of sequence prediction in its most general formulation: for a given class of probability measures, does there exist a measure which predicts all of the measures in the class
+To address this problem, we find some conditions on local absolute continuity which are sufficient for prediction and which generalize several different notions which are known to be sufficient for prediction
+We also formulate some open questions to outline a direction for finding the conditions on classes of measures for which prediction is possible
+Let a sequence SYMBOL , SYMBOL of letters from some finite alphabet SYMBOL be generated by some probability measure SYMBOL
+Having observed the first SYMBOL letters SYMBOL we want to predict what is the probability of the next letter being SYMBOL , for each SYMBOL
+This task is motivated by numerous applications - from weather forecasting and stock market prediction to data compression
+If the measure SYMBOL is known completely then the best forecasts one can make for the SYMBOL st outcome of a sequence SYMBOL is SYMBOL -conditional probabilities of SYMBOL given SYMBOL
+On the other hand, it is immediately apparent that if nothing is known about the distribution SYMBOL generating the sequence then no prediction is possible, since for any predictor there is a measure on which it errs gives inadequate probability forecasts on every step
+Thus one has to restrict the attention to some class of measures
+Laplace was perhaps the first to address the question of sequence prediction, his motivation being as follows: Suppose that we know that the Sun has risen every day for 5000 years, what is the probability that it will rise tomorrow
+He suggested to assume that the probability that the Sun rises is the same every day and the trials are independent of each other
+Thus Laplace considered the task of sequence prediction when the true generating measure belongs to the family of Bernoulli iid    measures with binary alphabet SYMBOL
+The predicting measure suggested by Laplace was SYMBOL where SYMBOL is the number of 1s in SYMBOL
+The conditional probabilities of Laplace's measure SYMBOL converge to the true conditional probabilities SYMBOL -almost surely under any Bernoulli iid measure SYMBOL
+This approach generalizes to the problem of predicting any finite-memory e g    Markovian measure
+Moreover, in a measure SYMBOL was constructed for predicting an arbitrary stationary measure
+The conditional probabilities of SYMBOL converge to the true ones on average , where average is taken over time steps that is, in Cesaro sense , SYMBOL -almost surely for any stationary measure SYMBOL
+However, as it was shown in the same work, there is no measure for which conditional probabilities converge to the true ones SYMBOL -a s    for every stationary SYMBOL
+Thus we can see that already for the problem of predicting outcomes of a stationary measure two criteria of prediction arise: prediction in the average or in Cesaro sense and prediction on each step, and the solution exists only for the former problem
+But what if the measure generating the sequence is not stationary
+A different assumption one can make is that the measure SYMBOL generating the sequence is computable
+Solomonoff suggested a measure SYMBOL for predicting any computable probability measure
+The key observation here is that the class of all computable probability measures is countable; let us denote it by SYMBOL
+A Bayesian predictor SYMBOL for a countable class of measures SYMBOL is constructed as follows: SYMBOL for any measurable set A, where the weights SYMBOL are positive and sum to one
+The best predictor for a measure SYMBOL is the measure SYMBOL itself
+The Bayesian predictor simply takes the weighted average of the predictors for all measures in the class - for countable classes this is possible
+It was shown by Solomonoff that SYMBOL -conditional probabilities converge to SYMBOL -conditional probabilities almost surely for any computable measure SYMBOL
+In fact this is a special case of a more general though without convergence rate result of Blackwell and Dubins which states that if a measure SYMBOL is absolutely continuous with respect to a measure SYMBOL then SYMBOL converges to SYMBOL in total variation SYMBOL -almost surely
+Convergence in total variation means prediction in a very strong sense - convergence of conditional probabilities of arbitrary events not just the next outcome , or prediction with arbitrary fast growing horizon
+Since for SYMBOL we have SYMBOL for every measurable set SYMBOL and for every SYMBOL , each SYMBOL is absolutely continuous with respect to SYMBOL
+Thus the problem of sequence prediction for certain classes of measures such as the class of all stationary measures or the class of all computable measures was often addressed in the literature
+Although the mentioned classes of measures are sufficiently interesting, it is often hard to decide in applications with which assumptions does a problem at hand comply; not to mention such practical issues as that a predicting measure for all computable measures is necessarily non-computable itself
+Moreover, to be able to generalize the solutions of the sequence prediction problem to such problems as active learning, where outcomes of a sequence may depend on actions of the predictor, one has to understand better under which conditions the problem of sequence prediction is solvable
+In particular, in active learning, the stationarity assumption does not seem to be applicable since the predictions are non-stationary , although, say, the Markov assumption is often applicable and is extensively studied
+Thus, we formulate the following general questions which we start to address in the present work: For which classes of measures is sequence prediction possible
+Under which conditions does a measure SYMBOL predict a measure SYMBOL
+As we have seen, these questions have many facets, and in particular there are many criteria of prediction to be considered, such as almost sure convergence of conditional probabilities, convergence in average, etc
+Extensive as the literature on sequence prediction is, these questions in their full generality have not received much attention
+One line of research which exhibits this kind of generality consists in extending the result of Blackwell and Dubins mentioned above, which states that if SYMBOL is absolutely continuous with respect to SYMBOL , then SYMBOL predicts SYMBOL in total variation distance
+In a question of whether, given a class of measures SYMBOL and a prior ``meta''-measure SYMBOL over this class of measures, the conditional probabilities of a Bayesian mixture of the class SYMBOL w r t
+SYMBOL converge to the true SYMBOL -probabilities weakly merge, in terminology of for SYMBOL almost any measure SYMBOL in SYMBOL
+This question can be considered solved, since the authors provide necessary and sufficient conditions on the measure given by the mixture of the class SYMBOL w r t
+SYMBOL under which prediction is possible
+The major difference from the general questions we posed above is that we do not wish to assume that we have a measure on our class of measures
+For large non-parametric classes of measures it may not be intuitive which measure over it is natural; rather, the question is whether a ``natural'' measure which can be used for prediction exists
+To address the general questions posed, we start with the following observation
+As it was mentioned, for a Bayesian mixture SYMBOL of a countable class of measures SYMBOL , SYMBOL , we have SYMBOL for any SYMBOL and any measurable set SYMBOL , where SYMBOL is a constant
+This condition is stronger than the assumption of absolute continuity and is sufficient for prediction in a very strong sense
+Since we are willing to be satisfied with prediction in a weaker sense e g    convergence of conditional probabilities , let us make a weaker assumption: Say that a measure SYMBOL dominates a measure SYMBOL with coefficients SYMBOL if dots,x_n for all SYMBOL   paranodot The first concrete question  we pose is, under what conditions on SYMBOL does imply that SYMBOL predicts SYMBOL
+Observe that if SYMBOL for any SYMBOL then any measure SYMBOL is locally absolutely continuous with respect to SYMBOL that is, the measure SYMBOL restricted to the first SYMBOL trials SYMBOL is absolutely continuous w r t
+SYMBOL for each SYMBOL , and moreover, for any measure SYMBOL some constants SYMBOL can be found that satisfy 
+For example, if SYMBOL is Bernoulli iid    measure with parameter SYMBOL and SYMBOL is any other measure, then is trivially satisfied with SYMBOL
+Thus we know that if SYMBOL then SYMBOL predicts SYMBOL in a very strong sense, whereas exponentially decreasing SYMBOL are not enough for prediction
+Perhaps somewhat surprisingly, we will show that dominance with any subexponentially decreasing coefficients is sufficient for prediction, in a weak sense of convergence of expected averages
+Dominance with any polynomially decreasing coefficients, and also with coefficients decreasing for example as SYMBOL , is sufficient for almost sure prediction on average i e    in Cesaro sense
+However, for prediction on every step we have a negative result: for any dominance coefficients that go to zero there exists a pair of measures SYMBOL and SYMBOL which satisfy but SYMBOL does not predict SYMBOL in the sense of almost sure convergence of probabilities
+Thus the situation is similar to that for predicting any stationary measure: prediction is possible in the average but not on every step
+Note also that for Laplace's measure SYMBOL it can be shown that SYMBOL dominates any iid    measure SYMBOL with linearly decreasing coefficients SYMBOL ; a generalization of SYMBOL for predicting all measures with memory SYMBOL for a given SYMBOL dominates them with polynomially decreasing coefficients
+Thus dominance with decreasing coefficients generalizes in a sense predicting countable classes of measures where we have dominance with a constant , absolute continuity via local absolute continuity , and predicting iid and finite-memory measures
+Another way to look for generalizations is as follows
+The Bayes mixture SYMBOL , being a sum of countably many measures predictors , possesses some of their predicting properties
+In general, which predictive properties are preserved under summation
+In particular, if we have two predictors SYMBOL and SYMBOL for two classes of measures, we are interested in the question whether SYMBOL is a predictor for the union of the two classes
+An answer to this question would improve our understanding of how far a class of measures for which a predicting measure exists can be extended without losing this property
+Thus, the second question we consider is the following: suppose that a measure SYMBOL predicts SYMBOL in some weak sense , and let SYMBOL be some other measure e g a predictor for a different class of measures
+Does the measure SYMBOL still predict SYMBOL
+That is, we ask to which prediction quality criteria does the idea of taking a Bayesian sum generalize
+Absolute continuity is preserved under summation along with it's strong prediction ability
+It was mentioned in that prediction in the weak sense of convergence of expected averages of conditional probabilities is preserved under summation
+Here we find that several stronger notions of prediction are not preserved under summation
+Thus we address the following two questions
+Is dominance with decreasing coefficients sufficient for prediction in some sense, under some conditions on the coefficients
+And, if a measure SYMBOL predicts a measure SYMBOL in some sense, does the measure SYMBOL also predict SYMBOL in the same sense, where SYMBOL is an arbitrary measure
+Considering different criteria of prediction a s    convergence of conditional probabilities, a s    convergence of averages, etc in the above two questions we obtain not two but many different questions, some of which we answer in the positive and some in the negative, yet some are left open
+The paper is organized as follows
+Section introduces necessary notation and measures of divergence of probability measures
+Section addresses the question of whether dominance with decreasing coefficients is sufficient for prediction, while in Section we consider the question of summing a predictor with an arbitrary measure
+Both sections and also propose some open questions and directions for future research
+In Section we discuss some interesting special cases of the questions considered, and also some related problems
+Prediction is a complex notion, and different predictors such as people, computer programs, and probabilistic theories can pursue very different goals
+In this paper I will review some popular kinds of prediction and argue that the theory of competitive on-line learning can benefit from the kinds of prediction that are now foreign to it
+The standard goal for predictor in learning theory is to incur a small loss for a given loss function measuring the discrepancy between the predictions and the actual outcomes
+Competitive on-line learning concentrates on a ``relative'' version of this goal: the predictor is to perform almost as well as the best strategies in a given benchmark class of prediction strategies
+Such predictions can be interpreted as decisions made by a ``small'' decision maker i e , one whose decisions do not affect the future outcomes 
+Predictions, or probability forecasts , considered in the foundations of probability are statements rather than decisions; the loss function is replaced by a procedure for testing the forecasts
+The two main approaches to the foundations of probability are measure-theoretic as formulated by Kolmogorov and game-theoretic as developed by von Mises and Ville ; the former is now dominant in mathematical probability theory, but the latter appears to be better adapted for uses in learning theory discussed in this paper
+An important achievement of Kolmogorov's school of the foundations of probability was construction of a universal testing procedure and realization Levin, 1976 that there exists a forecasting strategy that produces ideal forecasts
+Levin's ideal forecasting strategy, however, is not computable
+Its more practical versions can be obtained from the results of game-theoretic probability theory
+For a wide class of forecasting protocols, it can be shown that for any computable game-theoretic law of probability there exists a computable forecasting strategy that produces ideal forecasts, as far as this law of probability is concerned
+Choosing suitable laws of probability we can ensure that the forecasts agree with reality in requisite ways
+Probability forecasts that are known to agree with reality can be used for making good decisions: the most straightforward procedure is to select decisions that are optimal under the forecasts the principle of minimum expected loss 
+This gives, inter alia , a powerful tool for competitive on-line learning; I will describe its use for designing prediction algorithms that satisfy the property of universal consistency and its more practical versions
+In conclusion of the paper I will discuss some limitations of competitive on-line learning and possible directions of further research   thispagestyle empty    ifFULLThe changes I made to the abstract as compared to : ``talk'' is replaced by ``paper'' throughout
+This abstract still refers to ``outcomes'' rather than the ``observations'' and ``data'' of the main part of the paper   blueend
+This paper is based on my invited talk at the 19th Annual Conference on Learning Theory Pittsburgh, PA, June 24, 2006 
+In recent years COLT invited talks have tended to aim at establishing connections between the traditional concerns of the learning community and the work done by other communities such as game theory, statistics, information theory, and optimization 
+Following this tradition, I will argue that some ideas from the foundations of probability can be fruitfully applied in competitive on-line learning
+In this paper I will use the following informal taxonomy of predictions reminiscent of Shafer's , Figure 2, taxonomy of probabilities :  D-predictions are mere Decisions
+They can never be true or false but can be good or bad
+Their quality is typically evaluated with a loss function  S-predictions are Statements about reality
+They can be tested and, if found inadequate, rejected as false  F-predictions or Frequentist predictions are intermediate between D-pre  -dic  -tions and S-predictions
+They are successful if they match the fre  -quen  -cies of various observed events
+Traditionally, learning theory in general and competitive on-line learning in particular consider D-predictions
+I will start, in Section , from a simple asymptotic result about D-predictions: there exists a universally consistent on-line prediction algorithm randomized if the loss function is not required to be convex in the prediction 
+Section is devoted to S-prediction and Section to F-prediction
+We will see that S-prediction is more fundamental than, and can serve as a tool for, F-prediction
+Section explains how F-prediction and so, indirectly, S-prediction is relevant for D-prediction
+In Section I will prove the result of Section about universal consistency, as well as its non-asymptotic version
+We derive an exact and efficient Bayesian regression algorithm for piecewise constant functions of unknown segment number, boundary location, and levels
+It works for any noise and segment level prior, eg    Cauchy which can handle outliers
+We derive simple but good estimates for the in-segment variance
+We also propose a Bayesian regression curve as a better way of smoothing data without blurring boundaries
+The Bayesian approach also allows straightforward determination of the evidence, break probabilities and error estimates, useful for model selection and significance and robustness studies
+We discuss the performance on synthetic and real-world examples
+Many possible extensions will be discussed
+We consider the problem of fitting a piecewise constant function through noisy one-dimensional data, as eg    in Figure , where the segment number, boundaries and levels are unknown
+Regression with piecewise constant PC functions, also known as change point detection, has many applications
+For instance, determining DNA copy numbers in cancer cells from micro-array data, to mention just one recent
+We provide a full Bayesian analysis of PC-regression
+For a fixed number of segments we choose a uniform prior over all possible segment boundary locations
+Some prior on the segment levels and data noise within each segment is assumed
+Finally a prior over the number of segments is chosen
+From this we obtain the posterior segmentation probability distribution Section 
+In practice we need summaries of this complicated distribution
+A simple maximum MAP approximation or mean does not work here
+The right way is to proceed in stages from determining the most critical segment number, to the boundary location, and finally to the then trivial segment levels
+We also extract the evidence, the boundary probability distribution, and an interesting non-PC regression curve including error estimate Section 
+We derive an exact polynomial-time dynamic-programming-type algorithm for all quantities of interest Sections and 
+Our algorithm works for any noise and level prior
+We consider more closely the Gaussian ``standard'' prior and heavy-tailed robust-to-outliers distributions like the Cauchy, and briefly discuss the non-parametric case Sections and 
+Finally, some hyper-parameters like the global data average and variability and local within-level noise have to be determined
+We introduce and discuss efficient semi-principled estimators, thereby avoiding problematic or expensive numerical EM or Monte-Carlo estimates Section 
+We test our method on some synthetic examples Section and some real-world data sets Section 
+The simulations show that our method handles difficult data with high noise and outliers well
+Our basic algorithm can easily be modified in a variety of ways: For discrete segment levels, segment dependent variance, piecewise linear and non-linear regression, non-parametric noise prior, etc Section 
+Sen and Srivastava developed a frequentist solution to the problem of detecting a single the most prominent segment boundary called change or break point 
+Olshen et al    generalize this method to detect pairs of break points, which improves recognition of short segments
+Both methods are then heuristically used to recursively determine further change points
+Another approach is penalized Maximum Likelihood ML 
+For a fixed number of segments, ML chooses the boundary locations that maximize the data likelihood minimize the mean square data deviation 
+Jong et al    use a population based algorithm as minimizer, while Picard et al    use dynamic programming, which is structurally very close to our core recursion, to find the exact solution in polynomial time
+An additional penalty term has to be added to the likelihood in order to determine the correct number of segments
+The most principled penalty is the Bayesian Information Criterion 
+Since it can be biased towards too simple or too complex models, in practice often a heuristic penalty is used
+An interesting heuristic, based on the curvature of the log-likelihood as a function of the number of segments, has been used in 
+Our Bayesian regressor is a natural response to penalized ML
+Many other regressors exist; too numerous to list them all
+Another closely related work to ours is Bayesian bin density estimation by Endres and F "oldi 'ak , who also average over all boundary locations, but in the context of density estimation
+A full Bayesian approach when computationally feasible has various advantages over others: A generic advantage is that it is more principled and hence involves fewer heuristic design choices
+This is particularly important for estimating the number of segments
+Another generic advantage is that it can be easily embedded in a larger framework
+For instance, one can decide among competing models solely based on the Bayesian evidence
+Finally, Bayes often works well in practice, and provably so if the model assumptions are valid
+We can also extract other information nearly for free , like probability estimates and variances for the various quantities of interest
+Particularly interesting is the expected level and variance of each data point
+This leads to a regression curve, which is very flat, i e   smoothes the data, in long and clear segments, wiggles in less clear segments, follows trends, and jumps at the segment boundaries
+It thus behaves somewhat between local smoothing which wiggles more and blurs jumps and rigid PC-segmentation
+A standard approach in pattern classification is to estimate the distributions of the label classes, and then to apply the Bayes classifier to the estimates of the distributions in order to classify unlabeled examples
+As one might expect, the better our estimates of the label class distributions, the better the resulting classifier will be
+In this paper we make this observation precise by identifying risk bounds of a classifier in terms of the quality of the estimates of the label class distributions
+We show how PAC learnability relates to estimates of the distributions that have a PAC guarantee on their SYMBOL distance from the true distribution, and we bound the increase in negative log likelihood risk in terms of PAC bounds on the KL-divergence
+We give an inefficient but general-purpose smoothing method for converting an estimated distribution that is good under the SYMBOL metric into a distribution that is good under the KL-divergence
+We consider a general approach to pattern classification in which elements of each class are first used to train a probabilistic model via some unsupervised learning method
+The resulting models for each class are then used to assign discriminant scores to an unlabeled instance, and a label is chosen to be the one associated with the model giving the highest score
+For example uses this approach to classify protein sequences, via training a well-known probabilistic suffix tree model of Ron et al on each sequence class
+Indeed, even where an unsupervised technique is mainly being used to gain insight into the process that generated two or more data sets, it is still sometimes instructive to try out the associated classifier, since the misclassification rate provides a quantitative measure of the accuracy of the estimated distributions
+The work of has led to further related algorithms for learning classes of probabilistic finite state automata PDFAs in which the objective of learning has been formalized as the estimation of a true underlying distribution over strings output by the target PDFA with a distribution represented by a hypothesis PDFA
+The natural discriminant score to assign to a string, is the probability that the hypothesis would generate that string at random
+As one might expect, the better one's estimates of label class distributions the class-conditional densities , the better should be the associated classifier
+The contribution of this paper is to make precise that observation
+We give bounds on the risk of the associated Bayes classifier in terms of the quality of the estimated distributions
+These results are partly motivated by our interest in the relative merits of estimating a class-conditional distribution using the variation distance, as opposed to the KL-divergence defined in the next section 
+In it has been shown how to learn a class of PDFAs using KL-divergence, in time polynomial in a set of parameters that includes the expected length of strings output by the automaton
+In we show how to learn this class with respect to variation distance, with a polynomial sample-size bound that is independent of the length of output strings
+Furthermore, it can be shown that it is necessary to switch to the weaker criterion of variation distance, in order to achieve this
+We show here that this leads to a different -but still useful -performance guarantee for the Bayes classifier
+Abe and Warmuth study the problem of learning probability distributions using the KL-divergence, via classes of probabilistic automata
+Their criterion for learnability is that -for an unrestricted input distribution SYMBOL -the hypothesis PDFA should be almost i e within SYMBOL as close as possible to SYMBOL
+Abe, Takeuchi and Warmuth study the negative log-likelihood loss function in the context of learning stochastic rules , i e rules that associate an element of the domain SYMBOL to a probability distribution over the range SYMBOL
+We show here that if two or more label class distributions are learnable in the sense of , then the resulting stochastic rule the conditional distribution over SYMBOL given SYMBOL is learnable in the sense of 
+We show that if instead the label class distributions are well estimated using the variation distance, then the associated classifier may not have a good negative log likelihood risk, but will have a misclassification rate that is close to optimal
+This result is for general SYMBOL -class classification, where distributions may overlap i e the optimum misclassification rate may be positive 
+We also incorporate variable misclassification penalties sometimes one might wish a false positive to cost more than a false negative , and show that this more general loss function is still approximately minimized provided that discriminant likelihood scores are rescaled appropriately
+As a result we show that PAC-learnability and more generally p-concept learnability , follows from the ability to learn class distributions in the setting of Kearns et al 
+Papers such as study the problem of learning various classes of probability distributions with respect to KL-divergence and variation distance, in this setting
+It is well-known noted in that learnability with respect to KL-divergence is stronger than learnability with respect to variation distance
+Furthermore, the KL-divergence is usually used for example in due to the property that when minimized with respect to an sample, the empirical likelihood of that sample is maximized
+An algorithm that learns with respect to variation distance can sometimes be converted to one that learns with respect to KL-divergence by a smoothing technique , when the domain is SYMBOL , and SYMBOL is a parameter of the learning problem
+In this paper we give a related smoothing rule that applies to the version of the PDFA learning problem where we seem to ``need'' to use the variation distance
+However, the smoothed distribution does not have an efficient representation, and requires the probabilities used in the target PDFA to have limited precision
+In this paper we introduce the class of stationary prediction strategies and construct a prediction algorithm that asymptotically performs as well as the best continuous stationary strategy
+We make mild compactness assumptions but no stochastic assumptions about the environment
+In particular, no assumption of stationarity is made about the environment, and the stationarity of the considered strategies only means that they do not depend explicitly on time; we argue that it is natural to consider only stationary strategies even for highly non-stationary environments
+This paper belongs to the area of learning theory that has been variously referred to as prediction with expert advice, competitive on-line prediction, prediction of individual sequences, and universal on-line learning; see for a review
+There are many proof techniques known in this field; this paper is based on Kalnishkan and Vyugin's Weak Aggregating Algorithm , but it is possible that some of the numerous other techniques could be used instead
+In Section we give the main definitions and state our main results, Theorems ; their proofs are given in Sections 
+In Section we informally discuss the notion of stationarity, and Section concludes
+In probabilistic grammatical inference, a usual goal is to infer a good approximation of an unknown distribution SYMBOL called a stochastic language
+The estimate of SYMBOL stands in some class of probabilistic models such as probabilistic automata PA 
+In this paper, we focus on probabilistic models based on multiplicity automata MA 
+The stochastic languages generated by MA are called rational stochastic languages ; they strictly include stochastic languages generated by PA; they also admit a very concise canonical representation
+Despite the fact that this class is not recursively enumerable, it is efficiently identifiable in the limit by using the algorithm DEES, introduced by the authors in a previous paper
+However, the identification is not proper and before the convergence of the algorithm, DEES can produce MA that do not define stochastic languages
+Nevertheless, it is possible to use these MA to define stochastic languages
+We show that they belong to a broader class of rational series, that we call pseudo-stochastic rational languages
+The aim of this paper is twofold
+First we provide a theoretical study of pseudo-stochastic rational languages, the languages output by DEES, showing for example that this class is decidable within polynomial time
+Second, we have carried out a lot of experiments in order to compare DEES to classical inference algorithms such as ALERGIA and MDI
+They show that DEES outperforms them in most cases  Keywords   pseudo-stochastic rational languages, multiplicity automata, probabilistic grammatical inference
+In probabilistic grammatical inference, we often consider stochastic languages which define distributions over SYMBOL , the set of all the possible words over an alphabet SYMBOL
+In general, we consider an unknown distribution SYMBOL and the goal is to find a good approximation given a finite sample of words independently drawn from SYMBOL
+The class of probabilistic automata PA is often used for modeling such distributions
+This class has the same expressiveness as Hidden Markov Models and is identifiable in the limit 
+However, there exists no efficient algorithm for identifying PA
+This can be explained by the fact that there exists no canonical representation of these automata which makes it difficult to correctly identify the structure of the target
+One solution is to focus on subclasses of PA such as probabilistic deterministic automata but with an important lack of expressiveness
+Another solution consists in considering the class of multiplicity automata MA 
+These models admit a canonical representation which offers good opportunities from a machine learning point of view
+MA define functions that compute rational series with values in SYMBOL 
+MA are a strict generalization of PA and the stochastic languages generated by PA are special cases of rational stochastic languages
+Let us denote by SYMBOL the class of rational stochastic languages computed by MA with parameters in SYMBOL where SYMBOL
+With SYMBOL or SYMBOL , SYMBOL is exactly the class of stochastic languages generated by PA with parameters in SYMBOL
+But, when SYMBOL or SYMBOL , we obtain strictly greater classes
+This provides several advantages: Elements of SYMBOL have a minimal normal representation, thus elements of SYMBOL may have significantly smaller representation in SYMBOL ; parameters of these minimal representations are directly related to probabilities of some natural events of the form SYMBOL , which can be efficiently estimated from stochastic samples; lastly when SYMBOL is a field, rational series over SYMBOL form a vector space and efficient linear algebra techniques can be used to deal with rational stochastic languages
+However, the class SYMBOL presents a serious drawback: There exists no recursively enumerable subset class of MA which exactly generates it 
+As a consequence, no proper identification algorithm can exist: indeed, applying a proper identification algorithm to an enumeration of samples of SYMBOL would provide an enumeration of the class of rational stochastic languages over SYMBOL
+In spite of this result, there exists an efficient algorithm, DEES, which is able to identify SYMBOL in the limit
+But before reaching the target, DEES can produce MA that do not define stochastic languages
+However, it has been shown in that with probability one, for any rational stochastic language SYMBOL , if DEES is given as input a sufficiently large sample SYMBOL drawn according to SYMBOL , DEES outputs a rational series such that SYMBOL converges absolutely to 1
+Moreover, SYMBOL converges to 0 as the size of SYMBOL increases
+We show that these MA belong to a broader class of rational series, that we call pseudo-stochastic rational languages
+A pseudo-stochastic rational language SYMBOL has the property that SYMBOL is defined for any word SYMBOL and that SYMBOL
+A stochastic language SYMBOL can be associated with SYMBOL in such a way that SYMBOL when the sum SYMBOL is absolutely convergent
+As a first consequence, SYMBOL when SYMBOL is a stochastic language
+As a second consequence, for any rational stochastic language SYMBOL , if DEES is given as input increasing samples drawn according to SYMBOL , DEES outputs pseudo-stochastic rational languages SYMBOL such that SYMBOL converges to 0 as the size of SYMBOL increases
+The aim of this paper is twofold: To provide a theoretical study of the class of pseudo-stochastic rational languages and a series of experiments in order to compare the performance of DEES to two classical inference algorithms: ALERGIA and MDI 
+We show that the class of pseudo-stochastic rational languages is decidable within polynomial time
+We provide an algorithm that can be used to compute SYMBOL from any MA that computes SYMBOL
+We also show how it is possible to simulate SYMBOL using such an automaton
+We show that there exist pseudo-stochastic rational languages SYMBOL such that SYMBOL is not rational
+Finally, we show that it is undecidable whether two pseudo-stochastic rational languages define the same stochastic language
+We have carried out a lot of experiments which show that DEES outperforms ALERGIA and MDI in most cases
+These results were expected since ALERGIA and MDI have not the same theoretical expressiveness and since DEES aims at producing a minimal representation of the target in the set of MA, which can be significantly smaller than the smaller equivalent PDA if it exists 
+The paper is organized as follows
+In section 2, we introduce some background about multiplicity automata, rational series and stochastic languages and present the algorithm DEES
+Section 3 deals with our study of pseudo-rational stochastic languages
+Our experiments are detailed in Section 4
+We start from a simple asymptotic result for the problem of on-line regression with the quadratic loss function: the class of continuous limited-memory prediction strategies admits a ``leading prediction strategy'', which not only asymptotically performs at least as well as any continuous limited-memory strategy but also satisfies the property that the excess loss of any continuous limited-memory strategy is determined by how closely it imitates the leading strategy
+More specifically, for any class of prediction strategies constituting a reproducing kernel Hilbert space we construct a leading strategy, in the sense that the loss of any prediction strategy whose norm is not too large is determined by how closely it imitates the leading strategy
+This result is extended to the loss functions given by Bregman divergences and by strictly proper scoring rules
+Suppose SYMBOL is a normed function class of prediction strategies the ``benchmark class'' 
+It is well known that, under some restrictions on SYMBOL , there exists a ``master prediction strategy'' sometimes also called a ``universal strategy'' that performs almost as well as the best strategies in SYMBOL whose norm is not too large see, eg , 
+The ``leading prediction strategies'' constructed in this paper satisfy a stronger property: the loss of any prediction strategy in SYMBOL whose norm is not too large exceeds the loss of a leading strategy by the divergence between the predictions output by the two prediction strategies
+Therefore, the leading strategy implicitly serves as a standard for prediction strategies SYMBOL in SYMBOL whose norm is not too large: such a prediction strategy SYMBOL suffers a small loss to the degree that its predictions resemble the leading strategy's predictions, and the only way to compete with the leading strategy is to imitate it
+From the practical point of view, master strategies are much more interesting than leading strategies, although the existence of leading strategies is a very curious fact
+We start the formal exposition with a simple asymptotic result Proposition in  S asserting the existence of leading strategies in the problem of on-line regression with the quadratic loss function for the class of continuous limited-memory prediction strategies
+To state a non-asymptotic version of this result Proposition we introduce several general definitions that are used throughout the paper
+In the following two sections Proposition is generalized in two directions, to the loss functions given by Bregman divergences  S and by strictly proper scoring rules  S
+Competitive on-line prediction typically avoids making any stochastic assumptions about the way the observations are generated, but in we consider, mostly for comparison purposes, the case where observations are generated stochastically
+That section contains most of the references to the related literature, although there are bibliographical remarks scattered throughout the paper
+Some proofs and proof sketches are given in  S, and the rest can be found in the full version of this paper,
+The proofs are gathered in  S
+The final section,  S, discusses % the general picture and possible directions of further research
+There are many techniques for constructing master strategies, such as gradient descent, strong and weak aggregating algorithms, following the perturbed leader, defensive forecasting, to mention just a few
+In this paper we will use defensive forecasting proposed in and based on and much earlier work by Levin, Foster, and Vohra 
+The master strategies constructed using defensive forecasting automatically satisfy the stronger properties required of leading strategies; on the other hand, it is not clear whether leading strategies can be constructed using other techniques
+Assuming that the loss function is convex in the prediction, we construct a prediction strategy universal for the class of Markov prediction strategies, not necessarily continuous
+Allowing randomization, we remove the requirement of convexity
+This paper belongs to the area of research known as universal prediction of individual sequences see for a review : the predictor's goal is to compete with a wide benchmark class of prediction strategies
+In the previous papers and we constructed prediction strategies competitive with the important classes of Markov and stationary, respectively, continuous prediction strategies
+In this paper we consider competing against possibly discontinuous strategies
+Our main results assert the existence of prediction strategies competitive with the Markov strategies
+This paper's idea of transition from continuous to general benchmark classes was motivated by Skorokhod's topology for the space SYMBOL of ``c `adl `ag'' functions, most of which are discontinuous
+Skorokhod's idea was to allow small deformations not only along the vertical axis but also along the horizontal axis when defining neighborhoods
+Skorokhod's topology was metrized by Kolmogorov so that it became a separable space , Appendix III; , p 913 , which allows us to apply one of the numerous algorithms for prediction with expert advice Kalnishkan and Vyugin's Weak Aggregating Algorithm in this paper to construct a universal algorithm
+In Section we give the main definitions and state our main results, Theorems and ; their proofs are given in Sections and , respectively
+There are at least two kinds of similarity
+Relational similarity is correspondence between relations, in contrast with attributional similarity , which is correspondence between attributes
+When two words have a high degree of attributional similarity, we call them synonyms
+When two pairs of words have a high degree of relational similarity, we say that their relations are analogous
+For example, the word pair mason:stone is analogous to the pair carpenter:wood
+This paper introduces Latent Relational Analysis LRA , a method for measuring relational similarity
+LRA has potential applications in many areas, including information extraction, word sense disambiguation, and information retrieval
+Recently the Vector Space Model VSM of information retrieval has been adapted to measuring relational similarity, achieving a score of 47 % on a collection of 374 college-level multiple-choice word analogy questions
+In the VSM approach, the relation between a pair of words is characterized by a vector of frequencies of predefined patterns in a large corpus
+LRA extends the VSM approach in three ways: 1 the patterns are derived automatically from the corpus, 2 the Singular Value Decomposition SVD is used to smooth the frequency data, and 3 automatically generated synonyms are used to explore variations of the word pairs
+LRA achieves 56 % on the 374 analogy questions, statistically equivalent to the average human score of 57 %
+On the related problem of classifying semantic relations, LRA achieves similar gains over the VSM
+There are at least two kinds of similarity
+Attributional similarity is correspondence between attributes and relational similarity is correspondence between relations 
+When two words have a high degree of attributional similarity, we call them synonyms
+When two word pairs have a high degree of relational similarity, we say they are analogous
+Verbal analogies are often written in the form A:B::C:D    , meaning A is to B as C is to D ; for example, traffic:street::water:riverbed
+Traffic flows over a street; water flows over a riverbed
+A street carries traffic; a riverbed carries water
+There is a high degree of relational similarity between the word pair traffic:street and the word pair water:riverbed
+In fact, this analogy is the basis of several mathematical theories of traffic flow 
+In Section , we look more closely at the connections between attributional and relational similarity
+In analogies such as mason:stone::carpenter:wood, it seems that relational similarity can be reduced to attributional similarity, since mason and carpenter are attributionally similar, as are stone and wood
+In general, this reduction fails
+Consider the analogy traffic is to street as water is to riverbed
+Traffic and water are not attributionally similar
+Street and riverbed are only moderately attributionally similar
+Many algorithms have been proposed for measuring the attributional similarity between two words 
+Measures of attributional similarity have been studied extensively, due to their applications in problems such as recognizing synonyms , information retrieval , determining semantic orientation , grading student essays , measuring textual cohesion , and word sense disambiguation 
+On the other hand, since measures of relational similarity are not as well developed as measures of attributional similarity, the potential applications of relational similarity are not as well known
+Many problems that involve semantic relations would benefit from an algorithm for measuring relational similarity
+We discuss related problems in natural language processing, information retrieval, and information extraction in more detail in Section 
+This paper builds on the Vector Space Model VSM of information retrieval
+Given a query, a search engine produces a ranked list of documents
+The documents are ranked in order of decreasing attributional similarity between the query and each document
+Almost all modern search engines measure attributional similarity using the VSM  namecite turneylittman05  adapt the VSM approach to measuring relational similarity
+They used a vector of frequencies of patterns in a corpus to represent the relation between a pair of words
+Section presents the VSM approach to measuring similarity
+In Section , we present an algorithm for measuring relational similarity, which we call Latent Relational Analysis LRA 
+The algorithm learns from a large corpus of unlabeled, unstructured text, without supervision
+LRA extends the VSM approach of  namecite turneylittman05  in three ways: 1 The connecting patterns are derived automatically from the corpus, instead of using a fixed set of patterns 2 Singular Value Decomposition SVD is used to smooth the frequency data 3 Given a word pair such as traffic:street, LRA considers transformations of the word pair, generated by replacing one of the words by synonyms, such as traffic:road, traffic:highway
+Section presents our experimental evaluation of LRA with a collection of 374 multiple-choice word analogy questions from the SAT college entrance exam
+An example of a typical SAT question appears in Table 
+In the educational testing literature, the first pair mason:stone is called the stem of the analogy
+The correct choice is called the solution and the incorrect choices are distractors
+We evaluate LRA by testing its ability to select the solution and avoid the distractors
+The average performance of college-bound senior high school students on verbal SAT questions corresponds to an accuracy of about 57 %
+LRA achieves an accuracy of about 56 %
+On these same questions, the VSM attained 47 %   One application for relational similarity is classifying semantic relations in noun-modifier pairs
+In Section , we evaluate the performance of LRA with a set of 600 noun-modifier pairs from  namecite nastase03
+The problem is to classify a noun-modifier pair, such as ``laser printer'', according to the semantic relation between the head noun printer and the modifier laser 
+The 600 pairs have been manually labeled with 30 classes of semantic relations
+For example, ``laser printer'' is classified as instrument ; the printer uses the laser as an instrument for printing
+We approach the task of classifying semantic relations in noun-modifier pairs as a supervised learning problem
+The 600 pairs are divided into training and testing sets and a testing pair is classified according to the label of its single nearest neighbour in the training set
+LRA is used to measure distance i e , similarity, nearness 
+LRA achieves an accuracy of 39 8 % on the 30-class problem and 58 0 % on the 5-class problem
+On the same 600 noun-modifier pairs, the VSM had accuracies of 27 8 % 30-class and 45 7 % 5-class
+We discuss the experimental results, limitations of LRA, and future work in Section and we conclude in Section 6 for backward compatibility of
+sty file Given a sample from a probability measure with support on a submanifold in Euclidean space one can construct a neighborhood graph which can be seen as an approximation of the submanifold
+The graph Laplacian of such a graph is used in several machine learning methods like semi-supervised learning, dimensionality reduction and clustering
+In this paper we determine the pointwise limit of three different graph Laplacians used in the literature as the sample size increases and the neighborhood size approaches zero
+We show that for a uniform measure on the submanifold all graph Laplacians have the same limit up to constants
+However in the case of a non-uniform measure on the submanifold only the so called random walk graph Laplacian converges to the weighted Laplace-Beltrami operator
+In recent years, methods based on graph Laplacians have become increasingly popular in machine learning
+They have been used in semi-supervised learning , spectral clustering and dimensionality reduction 
+Their popularity is mainly due to the following properties of the Laplacian which will be discussed in more detail in a later section: the Laplacian is the generator of the diffusion process label propagation in semi-supervised learning , the eigenvectors of the Laplacian have special geometric properties motivation for spectral clustering , the Laplacian induces an adaptive regularization functional, which adapts to the density and the geometric structure of the data semi-supervised learning, classification 
+If the data lies in SYMBOL the neighborhood graph built from the random sample can be seen as an approximation of the continuous structure
+in particular, if the data has support on a low-dimensional submanifold the neighborhood graph is a discrete approximation of the submanifold
+In machine learning we are interested in the intrinsic properties and objects of this submanifold
+The approximation of the Laplace-Beltrami operator via the graph Laplacian is a very important one since it has numerous applications as we will discuss later
+Approximations of the Laplace-Beltrami operator or related objects have been studied for certain special deterministic graphs
+The easiest case is a grid in SYMBOL
+In numerics it is standard to approximate the Laplacian with finite-differences schemes on the grid
+These can be seen as a special instances of a graph Laplacian
+There convergence for decreasing grid-size follows easily by an argument using Taylor expansions
+Another more involved example is the work of , where for a graph generated by an SYMBOL -packing of a manifold, the equivalence of certain properties of random walks on the graph and Brownian motion on the manifold have been established
+The connection between random walks and the graph Laplacian becomes obvious by noting that the graph Laplacian as well as the Laplace-Beltrami operator are the generators of the diffusion process on the graph and the manifold, respectively
+In the convergence of a discrete approximation of the Laplace Beltrami operator for a triangulation of a 2D-surface in SYMBOL was shown
+However, it is unclear whether the approximation described there can be written as a graph Laplacian and whether this result can be generalized to higher dimensions
+In the case where the graph is generated randomly, only first results have been proved so far
+The first work on the large sample limit of graph Laplacians has been done by 
+There the authors studied the convergence of the regularization functional induced by the graph Laplacian using the law of large numbers for SYMBOL -statistics
+In a second step taking the limit of the neighborhoodsize SYMBOL , they got SYMBOL as the effective limit operator in SYMBOL
+Their result has recently been generalized to the submanifold case and uniform convergence over the space of H "older-functions by
+In , the neighborhoodsize SYMBOL was kept fixed while the large sample limit of the graph Laplacian was considered
+In this setting, the authors showed strong convergence results of graph Laplacians to certain integral operators, which imply the convergence of the eigenvalues and eigenfunctions
+Thereby showing the consistency of spectral clustering for a fixed neighborhood size
+In contrast to the previous work in this paper we will consider the large sample limit and the limit as the neighborhood size approaches zero simultaneously for a certain class of neighbhorhood graphs
+The main emphasis lies on the case where the data generating measure has support on a submanifold of SYMBOL
+The bias term, that is the difference between the continuous counterpart of the graph Laplacian and the Laplacian itself has been studied first for compact submanifolds without boundary by and for the Gaussian kernel and a uniform data generating measure and was then generalized by to general isotropic weights and general probability measures
+Additionally Lafon showed that the use of data-dependent weights for the graph allows to control the influence of the density
+They all show that the bias term converges pointwise if the neighborhood size goes to zero
+The convergence of the graph Laplacian towards these continuous averaging operators was left open
+This part was first studied by and 
+In the convergence was shown for the so called unnormalized graph Laplacian in the case of a uniform probability measure on a compact manifold without boundary and using the Gaussian kernel for the weights, whereas in the pointwise convergence was shown for the random walk graph Laplacian in the case of general probability measures on non-compact manifolds with boundary using general isotropic data-dependent weights
+More recently have extended the pointwise convergence for the unnormalized graph Laplacian shown by to uniform convergence on compact submanifolds without boundary giving explicit rates
+In , see also , the rate of convergence given by has been improved in the setting of the uniform measure
+In this paper we will study the three most often used graph Laplacians in the machine learning literature and show their pointwise convergence in the general setting of and , that is we will in particular consider the case where by using data-dependent weights for the graph we can control the influence of the density on the limit operator
+In Section we introduce the basic framework necessary to define graph Laplacians for general directed weighted graphs and then simplify the general case to undirected graphs
+in particular, we define the three graph Laplacians used in machine learning so far, which we call the normalized, the unnormalized and the random walk Laplacian
+In Section we introduce the neighborhood graphs studied in this paper, followed by an introduction to the so called weighted Laplace-Beltrami operator, which will turn out to be the limit operator in general
+We also study properties of this limit operator and provide insights why and how this operator can be used for semi-supervised learning, clustering and regression
+Then finally we present the main convergence result for all three graph Laplacians and give the conditions on the neighborhood size as a function of the sample size necessary for convergence
+In Section we illustrate the main result by studying the difference between the three graph Laplacians and the effects of different data-dependent weights on the limit operator
+In Section we prove the main result
+We introduce a framework for studying non-compact manifolds with boundary and provide the necessary assumptions on the submanifold SYMBOL , the data generating measure SYMBOL and the kernel SYMBOL used for defining the weights of the edges
+We would like to note that the theorems given in Section contain slightly stronger results than the ones presented in Section
+The reader who is not familiar with differential geometry will find a brief introduction to the basic material used in this paper in Appendix
+An approach to the classification problem of machine learning, based on building local classification rules, is developed
+The local rules are considered as projections of the global classification rules to the event we want to classify
+A massive global optimization algorithm is used for optimization of quality criterion
+The algorithm, which has polynomial complexity in typical case, is used to find all high quality local rules
+The other distinctive feature of the algorithm is the integration of attributes levels selection for ordered attributes with rules searching and original conflicting rules resolution strategy
+The algorithm is practical; it was tested on a number of data sets from UCI repository, and a comparison with the other predicting techniques is presented
+Extraction of structural information from raw data is a problem which is of great interest for both fundamental and applied studies
+This paper will focus on one specific example of this problem - classification
+The goal is to predict a class of a particular event
+This problem was approached from a number of different disciplines, including Statistical Data Analysis , Machine Learning , Fuzzy Logic , Operations Research and Data Mining 
+As a result, a variety of learning techniques was developed
+The result of learning can be represented in a number of different forms
+The form that we are interested in working with is a set of rules
+It should be stressed that some other forms such as decision trees, fuzzy models and many others are equivalent to a set of rules
+A set of rules or any other form to which it is equivalent is often a preferred form of knowledge representation because it allows for a simple answer to the question, ``What was learned
+This specific set of rules was learned from the data
+For an algorithm, which produces only an answer, it is often impossible to understand what was really learned and why this specific answer was produced
+The two mentioned knowledge representations differ as follows: in the case that the result is a rule, the learned knowledge is represented in a language which is richer than one used to describe the dataset; in the case that the result is a value, the learned knowledge is represented in the same language as the one used to describe the dataset
+The model based techniques, such as developed in , take training data as input and produce a set of rules or statements which are equivalent to rules which can classify any event
+The lazy instance based techniques, such as developed in , return a result tailored to the specific event we want to classify
+With such techniques the events similar to the given one are usually found first, then a prediction based on found instances is made
+An interesting attempt to combine model based and lazy instance based learning was presented in 
+In a greedy lazy model based approach for classification was developed in which the result was a rule tailored to the specific observation
+While such an approach gives a simple rule as an answer which is often much easier to understand than a complex rules set and often works faster for classification of a single event, it as every greedy algorithm is not guaranteed to find the best rule, because the algorithm may not reach the global maximum of the quality criterion and a sub optimal rule may be returned
+In the work an approach based on the brute force of rule space scanning was developed
+It was used for finding the ``nuggets'' of knowledge in the data each nugget is a rule with a high degree of correctness 
+In contrast with greedy type algorithms, massive search algorithms are guaranteed to find the best rule s 
+In our early work we presented an approach which combined the massive model based rule search approach with lazy instance based learning
+In that work we were also interested in ``nuggets'' of knowledge, but only those which were applicable for the instance we wanted to classify
+The result was a set of rules which were applicable for classification of the given event
+One may think about these rules as a projection of a global classification rules set to the given instance of the event
+In the current paper this approach is taken to the next level, and a practical algorithm, applicable to a variety of problems, is presented
+A number of significant improvements have been made since that early version
+The current algorithm includes the following new features: 1
+highly optimized rule space scanning, which allows problems with significant number of attributes to be solved; 2
+integration of levels selection procedure for ordered continuous and literal attributes with the rule search algorithm; 3
+information about dependent attributes directly included into the tree search algorithm thus significantly reducing computational complexity; and 4
+an original conflicting rules resolution strategy which was especially built to work with automatically generated rules
+To create a practical algorithm, the three aspects - logical, statistical and computational complexity need to be addressed
+In section we formulate the problem and discuss the logical formulas which represent the rules we are interested in finding
+In section we discuss the statistical quality criterion which can be used for evaluation of rule quality and specify the criteria which we use in this work
+We also present a conflicting rules resolution strategy for automatically generated rules
+At the end of section a sketch of the algorithm is presented
+In section we discuss the selection of attributes for analysis; it should be stressed that some attributes as they are built in section are not independent, and this fact is known in advance
+In section we discuss computational complexity issues; an approach which includes information about dependence of the attributes into the algorithm is proposed
+In section we discuss error estimation
+In section we present the data analysis results and compare our results with the results of C4 5R8 
+In section a discussion is presented
+Competitive on-line prediction also known as universal prediction of individual sequences is a strand of learning theory avoiding making any stochastic assumptions about the way the observations are generated
+The predictor's goal is to compete with a benchmark class of prediction rules, which is often a proper Banach function space  ifFULLAlso popular are various discrete classes, such as the finite-state automata  blueendMetric entropy provides a unifying framework for competitive on-line prediction: the numerous known upper bounds on the metric entropy of various compact sets in function spaces readily imply bounds on the performance of on-line prediction strategies
+This paper discusses strengths and limitations of the direct approach to competitive on-line prediction via metric entropy, including comparisons to other approaches
+A typical result of competitive on-line prediction says that, for a given benchmark class of prediction strategies, there is a prediction strategy that performs almost as well as the best prediction strategies in the benchmark class
+For simplicity, in this paper the performance of a prediction strategy will be measured by the cumulative squared distance between its predictions and the true observations, assumed to be real occasionally complex numbers
+Different methods of competitive on-line predictions such as Gradient Descent, following the perturbed leader, strong and weak aggregating algorithms, defensive forecasting, etc   tend to have their narrow ``area of expertise'': each works well for benchmark classes of a specific ``size'' but is not readily applicable to classes of a different size
+In this paper we will apply a simple general method based on metric entropy to benchmark classes of a wide range of sizes
+Typically, this method does not give optimal results, but its results are often not much worse than those given by specialized methods, especially for benchmark classes that are not too massive
+Since the method is almost universally applicable, it sheds new light on the known results
+Another disadvantage of the metric entropy method is that it is not clear how to implement it efficiently, whereas many other methods are computationally very efficient
+Therefore, the results obtained by this method are only a first step, and we should be looking for other prediction strategies, both computationally more efficient and having better performance guarantees
+We start, in  S, by stating a simple asymptotic result about the existence of a universal prediction strategy for the class of continuous prediction rules
+The performance of the universal strategy is in the long run as good as the performance of any continuous prediction rule, but we do not attempt to estimate the rate at which the former approaches the latter
+This is the topic of the following section,  S, where we establish general results about performance guarantees based on metric entropy
+For example, in the simplest case where the benchmark class SYMBOL is a compact set, the performance guarantees become weaker as the metric entropy of SYMBOL becomes larger
+The core of the paper is organized according to the types of metric compacts pointed out by Kolmogorov and Tikhomirov in  S3
+Type I compacts have metric entropy of order SYMBOL ; this case corresponds to the finite-dimensional benchmark classes and is treated in  S
+Type II, with the typical order SYMBOL , contains various classes of analytic functions and is dealt with in  S
+The key deals with perhaps the most important case of order SYMBOL ; this includes, eg , Besov classes
+The classes of type IV, considered in  S, have metric entropy that grows even faster
+In  S S the benchmark class is always given
+In we ask the question of how prediction strategies competitive against various benchmark classes compare to each other
+The previous section,  S, prepares the ground for this  ifFULLIn standard methods are used to deduce implications of the results of preceding sections for statistical learning theory  blueendThe concluding section,  S, lists several directions of further research
+There is no real novelty in this paper; I just apply known results about metric entropy to competitive on-line prediction
+I hope it will be useful as a survey
+Canonical correlation analysis is a technique to extract common features from a pair of multivariate data
+In complex situations, however, it does not extract useful features because of its linearity
+On the other hand, kernel method used in support vector machine is an efficient approach to improve such a linear method
+In this paper, we investigate the effectiveness of applying kernel method to canonical correlation analysis     Keyword:  multivariate analysis, multimodal data, kernel method, regularization
+This paper deals with the method to extract common features from multiple information sources
+For instance, let us consider a task of learning in pattern recognition, in which an object is given by using an image and its name is given by a speech
+For a newly given image, the system is required to answer its name by a speech, and for a newly given speech, the system is to answer the corresponding image
+The task can be considered to be a regression problem from image to speech and vice versa
+However, since the dimensionalities of images and speeches are generally very large, a regression analysis many not work effectively
+In order to solve the problem, it is useful to map the inputs into low dimensional feature space and then to solve the regression problem
+The canonical correlation analysis CCA has been used for such a purpose
+CCA finds a linear transformation of a pair of multi-variates such that the correlation coefficient is maximized
+From an information theoretical point of view, the transformation maximizes the mutual information between extracted features
+However, if there is nonlinear relation between the variates, CCA does not always extract useful features
+On the other hand, the support vector machines SVM are attracted a lot of attention by its state-of-art performance in pattern recognition °• The kernel trick used in SVM is applicable not only for classification but also for other linear techniques, for example, kernel regression and kernel PCA °• In this paper, we apply the kernel method to CCA
+Since the kernel method is likely to overfit the data, we incorporate some regularization technique to avoid the overfitting
+We propose and analyze a new vantage point for the learning of mixtures of Gaussians: namely, the PAC-style model of learning probability distributions introduced by Kearns et al 
+Here the task is to construct a hypothesis mixture of Gaussians that is statistically indistinguishable from the actual mixture generating the data; specifically, the KL divergence should be at most SYMBOL
+In this scenario, we give a SYMBOL time algorithm that learns the class of mixtures of any constant number of axis-aligned Gaussians in SYMBOL
+Our algorithm makes no assumptions about the separation between the means of the Gaussians, nor does it have any dependence on the minimum mixing weight
+This is in contrast to learning results known in the ``clustering'' model, where such assumptions are unavoidable
+Our algorithm relies on the method of moments, and a subalgorithm developed in for a discrete mixture-learning problem
+In Kearns et al   introduced an elegant and natural model of learning unknown probability distributions
+In this framework we are given a class SYMBOL of probability distributions over SYMBOL and access to random data sampled from an unknown distribution SYMBOL that belongs to SYMBOL The goal is to output a hypothesis distribution SYMBOL which with high confidence is SYMBOL -close to SYMBOL as measured by the the Kullback-Leibler KL divergence, a standard measure of the distance between probability distributions see Section for details on this distance measure 
+The learning algorithm should run in time SYMBOL
+This model is well-motivated by its close analogy to Valiant's classical Probably Approximately Correct PAC framework for learning Boolean functions 
+Several notable results, both positive and negative, have been obtained for learning in the Kearns et al   framework
+Here we briefly survey some of the positive results that have been obtained for learning various types of mixture distributions
+Recall that given distributions SYMBOL and mixing weights SYMBOL that sum to 1, a draw from the corresponding mixture distribution is obtained by first selecting SYMBOL with probability SYMBOL and then making a draw from SYMBOL Kearns et al   gave an efficient algorithm for learning certain mixtures of Hamming balls ; these are product distributions over SYMBOL in which each coordinate mean is either SYMBOL or SYMBOL for some SYMBOL fixed over all mixture components
+Subsequently Freund and Mansour and independently Cryan et al gave efficient algorithms for learning a mixture of two arbitrary product distributions over SYMBOL
+Recently, Feldman et al gave a SYMBOL -time algorithm that learns a mixture of any SYMBOL many arbitrary product distributions over the discrete domain SYMBOL for any SYMBOL
+We introduce a simple framework for learning aggressive maneuvers in flight control of UAVs
+Having inspired from biological environment, dynamic movement primitives are analyzed and extended using nonlinear contraction theory
+Accordingly, primitives of an observed movement are stably combined and concatenated
+We demonstrate our results experimentally on the Quanser Helicopter, in which we first imitate aggressive maneuvers and then use them as primitives to achieve new maneuvers that can fly over an obstacle
+The role of UAVs Unmanned Aerial Vehicles has gained significant importance in the last decades
+They have many advantages agility, low surface area, ability to work in constrained or dangerous places over their conventional precedents
+In addition, current UAVs are more biologically-inspired in terms of shape and performance because of the improvements in electronics and propulsion
+Unfortunately, we are still far away from using their capacity at the fullest
+This is mostly related with the weakness of current control algorithms against high-dimensional and nonlinear environments
+In this sense, generating aggressive maneuvers is interesting and hard to accomplish
+In this paper, our approach to solve this issue is designed in view of the experiments on frogs and monkeys which suggest that we are faced with an inverse-kinematics algorithm that adapts to the environment and changes in a sequence of target points irrespective of the initial conditions
+In theory, we analyzed dynamic movement primitives DMPs and combined them using contraction theory
+In experiments, obstacle avoidance DMP of a human-piloted flight data is segmented into parts and combined at different initial points to achieve maneuvers against different obstacles on different locations
+Background of our work is briefly detailed below
+The cross-entropy method CE developed by R
+Rubinstein is an elegant practical principle for simulating rare events
+The method approximates the probability of the rare event by means of a family of probabilistic models
+The method has been extended to optimization, by considering an optimal event as a rare event
+CE works rather good when dealing with deterministic function optimization
+Now, it appears that two conditions are needed for a good convergence of the method
+First, it is necessary to have a family of models sufficiently flexible for discriminating the optimal events
+Indirectly, it appears also that the function to be optimized should be deterministic
+The purpose of this paper is to consider the case of partially discriminating model family, and of stochastic functions
+It will be shown on simple examples that the CE could fail when relaxing these hypotheses
+Alternative improvements of the CE method are investigated and compared on random examples in order to handle this issue
+The Cross-Entropy method has been developed by R
+Rubinstein for the simulation of rare events 
+The algorithm iteratively builds a near-optimal importance sampling of the rare event, based on a family of parameterized sampling laws
+The construction of the importance sampling is obtained by iteratively: tossing samples, selecting the samples which are approximating the rare events, relearning the parameters of the sampling law by minimizing its Kulback-Leiber distance cross-entropy with the selection, computing the importance weightings
+By considering the optimal events related to an objective as rare events, the method has been extended to optimization problems    5pt The cross-entropy method has been implemented successfully on many combinatorial problems
+However, attempted proofs of the method make some assumptions as preliminary requests 
+First, the proof has been made in a deterministic context
+Secondly, the closure of the simulation law family should contain the dirac on the optimum or laws with support on the optimums    5pt The first condition cannot be fulfilled properly, in case of stochastic problem
+The second condition is an obvious requirement
+But there are some cases, where it is not possible to handle all the solutions precisely by the law family
+Indeed, the solutions may not be countable practically; this is typically the case for some dynamic problems for example, the strategy tree against a deterministic computer chess player 
+Both difficulties are encountered in optimal planning with partial observation
+The purpose of this paper is to point out on simple examples, that these hypotheses are necessary for the convergence of the classical CE method
+The questions are: Does the  emph classical CE algorithm solve stochastic problems properly   It appears that the quantile selection within the CE may not work properly, without a rather good estimation of the objective functional expectation

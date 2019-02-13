@@ -1,4 +1,4 @@
-# NLP Question Detector for Toucan AI
+# NLP Question Detector
 # Author: Maria E. Garcia
 # Email: megarcia1234@gmail.com
 

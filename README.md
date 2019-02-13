@@ -1,5 +1,5 @@
 # NLP_QuestionDetector
-A heuristic-based question classifier
+A heuristic-based, binary question classifier
 
 1. [Read before running code](https://github.com/garcia2015/NLP_QuestionDetector/blob/master/README.md#read-before-running-code)
 2. [Intro](https://github.com/garcia2015/NLP_QuestionDetector/blob/master/README.md#intro)
